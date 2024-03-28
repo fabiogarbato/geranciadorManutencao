@@ -1,0 +1,88 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100%;
+  overflow-x: hidden;
+  .container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 12px;  
+}
+
+::-webkit-scrollbar-track {
+  background: #abf5ab;  
+}
+
+::-webkit-scrollbar-thumb {
+  background: #029c02;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #006400;  
+}
+
+::selection {
+  background-color: 	#6db6f1;
+  color: black; 
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #1A3E5C;
+  color: white;
+  padding: 10px 0;
+}
+
+.btn-custom {
+  width: 250px;
+  height: 90px;
+  font-size: 1.5rem; 
+  font-weight: bold;
+  color: white; 
+  background-color: #28a745; 
+  border: none;
+  border-radius: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  transition: background-color 0.3s, transform 0.3s; 
+}
+
+.btn-custom:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.btn-custom:active {
+  transform: translateY(1px); 
+}
+
+.custom-logout-link:hover, .custom-logout-link:focus {
+  color: rgb(255, 38, 0) !important;
+  background-color: rgb(202, 250, 202) !important; 
+}
+
+@font-face {
+  font-family: 'Fira Sans Condensed';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Fira Sans Condensed'), 
+       url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@900&display=swap') format('truetype');
+}
+
+.fira-sans-condensed-black {
+  font-family: 'Fira Sans Condensed', sans-serif;
+  font-weight: 700;
+}
+
+
+
+
+
