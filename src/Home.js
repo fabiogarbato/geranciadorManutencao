@@ -28,17 +28,17 @@ const App = () => {
 
   return (
     <Container fluid style={{ backgroundColor: 'white' }}>
-      <NavBar title="Migração HomePar" />
+      <NavBar title="Gerenciador de Manutenções" />
         <Row>
             <Col md={3} lg={2} className="d-none d-md-block bg-light sidebar">
                 <Nav defaultActiveKey="/home" className="flex-column pt-2">
-                    <Nav.Link as={Link} to="/MapMenu" className="nav-link text-success custom-logout-link">
+                    <Nav.Link as={Link} to="/MapMenu" className="nav-link text-primary custom-logout-link">
                         <FaMap /> Mapeador
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/Migrador" className="nav-link text-success custom-logout-link">
+                    <Nav.Link as={Link} to="/Migrador" className="nav-link text-primary custom-logout-link">
                         <FaPlane /> Migrador
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/Relatorio" className="nav-link text-success custom-logout-link">
+                    <Nav.Link as={Link} to="/Relatorio" className="nav-link text-primary custom-logout-link">
                         <FaChartLine /> Relatório
                     </Nav.Link>
                     <Nav.Link as={Link} onClick={handleLogout} className="nav-link text-danger custom-logout-link">

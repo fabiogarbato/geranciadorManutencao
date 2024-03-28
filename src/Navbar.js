@@ -1,10 +1,14 @@
 import { Navbar, Row, Col, Image } from 'react-bootstrap';
-import React from 'react'
+import React, {useContext} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from './AuthProvider';
 
 
 const NavBar = ({ title }) => {
+
+    const { isAuthenticated, usuario } = useAuth();
+
     return (
         <Navbar id='inicio' expand="lg" style={{
             backgroundColor: '#1A3E5C',
@@ -16,7 +20,11 @@ const NavBar = ({ title }) => {
         }}>
             <Row className="w-100">
                 <Col xs={12} md={4} className="d-flex justify-content-center justify-content-md-start">
-
+                    {isAuthenticated && (
+                        <span className='fira-sans-condensed-black' style={{ fontSize: '20px', color: 'White'}}>
+                            Olá, {usuario}
+                        </span>
+                    )}
                 </Col>
                 <Col xs={12} md={4} className="d-flex justify-content-center align-items-center">
                     <span className='fira-sans-condensed-black' style={{ fontSize: '35px', color: 'White'}}>
@@ -25,6 +33,7 @@ const NavBar = ({ title }) => {
                 </Col>
             </Row>
         </Navbar>
+        
         
     );
 };

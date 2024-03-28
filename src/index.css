@@ -66,7 +66,7 @@ html, body {
 
 .custom-logout-link:hover, .custom-logout-link:focus {
   color: rgb(255, 38, 0) !important;
-  background-color: rgb(202, 250, 202) !important; 
+  background-color: rgb(156, 224, 255) !important; 
 }
 
 @font-face {

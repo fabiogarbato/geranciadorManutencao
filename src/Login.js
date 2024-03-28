@@ -29,10 +29,13 @@ const Login = () => {
       });
   
       if (response.ok) {
+        const { usuario } = await response.json();
         showMessageSuccess("Usuário Logado!");
         navigate('/Home');
-        setIsAuthenticated(true); 
+        setIsAuthenticated(true);
         localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('usuario', usuario.usuario);
+
       } else {
           const data = await response.json(); 
           showMessageError(data.message); 
@@ -42,6 +45,7 @@ const Login = () => {
       console.error('Erro na solicitação:', error);
     }
   };
+
 
   useEffect(() => {
     document.body.style.overflowY = 'hidden';
