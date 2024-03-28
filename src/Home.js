@@ -1,17 +1,22 @@
 import './index.css';
-import { Container, Row, Col, Button, Card, Nav } from 'react-bootstrap';
-import React, { useEffect } from 'react';
+import { Container, Row, Col, Offcanvas, Nav } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import NavBar from './Navbar';
-import { FaMap, FaPlane, FaChartLine, FaSignOutAlt } from 'react-icons/fa';
+import { FaMap, FaPlane, FaChartLine, FaSignOutAlt, FaBars, FaCalendarAlt, FaHistory , FaMoneyBillWave, FaClipboardList, FaBell, FaCogs, FaFileAlt, FaCog } from 'react-icons/fa';
 import { useAuth } from './AuthProvider';
 
 const App = () => {  
 
     const navigate = useNavigate();
     const { setIsAuthenticated } = useAuth();
+
+    const [show, setShow] = useState(false);
+
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
 
     const handleLogout = () => {
         setIsAuthenticated(false);
@@ -30,26 +35,77 @@ const App = () => {
     <Container fluid style={{ backgroundColor: 'white' }}>
       <NavBar title="Gerenciador de Manutenções" />
         <Row>
-            <Col md={3} lg={2} className="d-none d-md-block bg-light sidebar">
+            <Col md={12} lg={2} className="d-none d-md-block bg-light sidebar">
                 <Nav defaultActiveKey="/home" className="flex-column pt-2">
-                    <Nav.Link as={Link} to="/MapMenu" className="nav-link text-primary custom-logout-link">
-                        <FaMap /> Mapeador
+                    <Nav.Link as={Link} to="/Agendamento" className="nav-link text-primary custom-logout-link">
+                        <FaCalendarAlt /> Agendamento de Manutenção
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/Migrador" className="nav-link text-primary custom-logout-link">
-                        <FaPlane /> Migrador
+                    <Nav.Link as={Link} to="/Historico" className="nav-link text-primary custom-logout-link">
+                        <FaHistory /> Histórico de Manutenção
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/Relatorio" className="nav-link text-primary custom-logout-link">
-                        <FaChartLine /> Relatório
+                    <Nav.Link as={Link} to="/Custos" className="nav-link text-primary custom-logout-link">
+                        <FaMoneyBillWave /> Controle de Custos
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Checklist" className="nav-link text-primary custom-logout-link">
+                        <FaClipboardList /> Lista de Verificação
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Lembretes" className="nav-link text-primary custom-logout-link">
+                        <FaBell /> Lembretes
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Pecas" className="nav-link text-primary custom-logout-link">
+                        <FaCogs /> Peças e Acessórios
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Relatorios" className="nav-link text-primary custom-logout-link">
+                        <FaFileAlt /> Relatórios
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Configuracoes" className="nav-link text-primary custom-logout-link">
+                        <FaCog /> Configurações
                     </Nav.Link>
                     <Nav.Link as={Link} onClick={handleLogout} className="nav-link text-danger custom-logout-link">
                         <FaSignOutAlt /> Sair
                     </Nav.Link>
                 </Nav>
             </Col>
-            <Col md={9} lg={10} className="p-3">
-                
-            </Col>
-      </Row>
+        </Row>
+        <button className="btn btn-primary d-md-none" onClick={handleShow}>
+            <FaBars />
+        </button>
+        <Offcanvas show={show} onHide={handleClose} placement="end">
+            <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Menu</Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+                <Nav className="flex-column pt-2">
+                    <Nav.Link as={Link} to="/Agendamento" className="nav-link text-primary custom-logout-link">
+                        <FaCalendarAlt /> Agendamento de Manutenção
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Historico" className="nav-link text-primary custom-logout-link">
+                        <FaHistory /> Histórico de Manutenção
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Custos" className="nav-link text-primary custom-logout-link">
+                        <FaMoneyBillWave /> Controle de Custos
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Checklist" className="nav-link text-primary custom-logout-link">
+                        <FaClipboardList /> Lista de Verificação
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Lembretes" className="nav-link text-primary custom-logout-link">
+                        <FaBell /> Lembretes
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Pecas" className="nav-link text-primary custom-logout-link">
+                        <FaCogs /> Peças e Acessórios
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Relatorios" className="nav-link text-primary custom-logout-link">
+                        <FaFileAlt /> Relatórios
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Configuracoes" className="nav-link text-primary custom-logout-link">
+                        <FaCog /> Configurações
+                    </Nav.Link>
+                    <Nav.Link as={Link} onClick={handleLogout} className="nav-link text-danger custom-logout-link">
+                        <FaSignOutAlt /> Sair
+                    </Nav.Link>
+                </Nav>
+            </Offcanvas.Body>
+        </Offcanvas>
       <Footer/>
     </Container>
   );
