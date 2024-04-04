@@ -42,28 +42,6 @@ html, body {
   padding: 10px 0;
 }
 
-.btn-custom {
-  width: 250px;
-  height: 90px;
-  font-size: 1.5rem; 
-  font-weight: bold;
-  color: white; 
-  background-color: #28a745; 
-  border: none;
-  border-radius: 20px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  transition: background-color 0.3s, transform 0.3s; 
-}
-
-.btn-custom:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
-}
-
-.btn-custom:active {
-  transform: translateY(1px); 
-}
-
 .custom-logout-link:hover, .custom-logout-link:focus {
   color: rgb(255, 38, 0) !important;
   background-color: rgb(156, 224, 255) !important; 
