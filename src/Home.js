@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import NavBar from './Navbar';
-import { FaMap, FaPlane, FaChartLine, FaSignOutAlt, FaBars, FaCalendarAlt, FaHistory , FaMoneyBillWave, FaClipboardList, FaBell, FaCogs, FaFileAlt,FaCar, FaCog } from 'react-icons/fa';
+import { FaSignOutAlt, FaBars, FaCalendarAlt, FaHistory , FaMoneyBillWave, FaClipboardList, FaBell, FaCogs, FaFileAlt,FaCar, FaCog } from 'react-icons/fa';
 import { useAuth } from './AuthProvider';
 
 const App = () => {  

@@ -1,5 +1,5 @@
-import { Navbar, Row, Col, Image } from 'react-bootstrap';
-import React, {useContext} from 'react'
+import { Navbar, Row, Col } from 'react-bootstrap';
+import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from './AuthProvider';
@@ -33,8 +33,6 @@ const NavBar = ({ title }) => {
                 </Col>
             </Row>
         </Navbar>
-        
-        
     );
 };
 
