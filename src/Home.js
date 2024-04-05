@@ -32,7 +32,7 @@ const App = () => {
     }, []);
 
   return (
-    <Container fluid style={{ backgroundColor: 'white' }}>
+    <Container fluid style={{ backgroundColor: '#f2f8fb' }}>
       <NavBar title="Gerenciador de Manutenções" />
         <Row>
             <Col md={12} lg={2} className="d-none d-md-block bg-light sidebar">

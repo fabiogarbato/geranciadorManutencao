@@ -3,7 +3,7 @@ import NavBar from './Navbar'
 import Footer from './Footer'
 import './CadastroVeiculo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaTag, FaTrademark, FaCarAlt, FaCalendarAlt, FaPaintBrush, FaTachometerAlt, FaCarSide } from 'react-icons/fa';
 import BackButton from './Components/BackButton';
 
@@ -15,6 +15,24 @@ const CadastroVeiculo = () => {
             document.body.style.overflowY = 'auto';
         };
     }, []);
+
+    const [placa, setPlaca] = useState('');
+
+    const formatarPlaca = (valor) => {
+        const valorSemFormatacao = valor.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+        if (valorSemFormatacao.length <= 3) {
+        return valorSemFormatacao;
+        }
+        if (valorSemFormatacao.length === 7) {
+        return valorSemFormatacao.slice(0, 3) + '-' + valorSemFormatacao.slice(3, 7);
+        }
+        return valorSemFormatacao.slice(0, 3) + '-' + valorSemFormatacao.slice(3, 6);
+    };
+
+    const handleChange = (event) => {
+        const valorFormatado = formatarPlaca(event.target.value);
+        setPlaca(valorFormatado);
+    };
     
   return (
     <Container fluid style={{ backgroundColor: '#f2f8fb'}}>
@@ -30,7 +48,13 @@ const CadastroVeiculo = () => {
                                     <Col md={6}>
                                         <Form.Group className='mb-3' controlId="formPlaca">
                                             <Form.Label><FaTag /> Placa</Form.Label>
-                                            <Form.Control type="text" placeholder="Insira a placa do veículo" />
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Insira a placa do veículo"
+                                                value={placa}
+                                                onChange={handleChange}
+                                                maxLength="8"
+                                            />
                                         </Form.Group>
                                     </Col>
                                     <Col md={6}>

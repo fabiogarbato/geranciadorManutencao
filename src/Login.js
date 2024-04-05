@@ -54,7 +54,7 @@ const Login = () => {
   }, []);
 
   return (
-    <Container fluid style={{ backgroundColor: '#e2e2e2'}}>
+    <Container fluid style={{ backgroundColor: '#f2f8fb'}}>
       <NavBar title="Manutenção Preventiva" />
       <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh"}}>
         <Card className="p-5" style={{ backgroundColor:'#2e6da0'}}> 
