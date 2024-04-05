@@ -6,7 +6,7 @@ import packageJson from '../package.json';
 const Footer = () => {  
     
   return (
-    <Container fluid style={{ backgroundColor: 'white'}}>
+    <Container className='main-content'>
         <footer className="footer">
             <Container fluid>
                 <p className="text-center mb-0">© Fábio Garbato - {new Date().getFullYear()} - Version: {packageJson.version}</p>
