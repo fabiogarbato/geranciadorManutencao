@@ -30,8 +30,8 @@ const CadastroVeiculo = () => {
     const handleChange = (event) => {
         const valorFormatado = formatarPlaca(event.target.value);
         setPlaca(valorFormatado);
-    };
-
+      };
+      
     const [ano, setAno] = useState('');
 
     const handleAnoChange = (event) => {
@@ -67,7 +67,7 @@ const CadastroVeiculo = () => {
     useEffect(() => {
         document.body.style.overflowY = 'hidden';
     }, []);
-    
+
     
   return (
     <Container fluid style={{ backgroundColor: '#f2f8fb'}}>
@@ -149,16 +149,17 @@ const CadastroVeiculo = () => {
                                     </Col>
                                 </Row>   
                             </Form>
-                                <div className="d-flex justify-content-end">
-                                    <Button onClick={() => setShowModal(true)}>Pesquisar Veículos</Button>
-                                    <PesquisaVeiculosModal
-                                        show={showModal}
-                                        onHide={() => setShowModal(false)}
-                                    />
+                            <div className="d-flex justify-content-between">
+                                <Button onClick={() => setShowModal(true)}>Pesquisar Veículos</Button>
+                                <PesquisaVeiculosModal
+                                    show={showModal}
+                                    onHide={() => setShowModal(false)}
+                                />
+                                <div>
                                     <SaveButton onSave={handleSave} isSaving={isSaving} />
                                     <RevertButton onRevert={handleRevert} isReverting={isReverting} />
                                 </div>
-                                
+                            </div>     
                         </Card.Body>
                     </Card>
                 </Col>

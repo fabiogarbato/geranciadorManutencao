@@ -9,28 +9,31 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
   const [veiculos, setVeiculos] = useState([]);
   const [veiculoSelecionado, setVeiculoSelecionado] = useState(null);
 
-  useEffect(() => {
-    const buscarVeiculos = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/veiculos${termoPesquisa.length > 0 ? `?search=${termoPesquisa}` : ''}`);
-        const data = await response.json();
-        setVeiculos(data);
-      } catch (error) {
-        console.error('Erro ao buscar veículos:', error);
-      }
-    };
-
-    buscarVeiculos();
-  }, [termoPesquisa]);
-
+  const pesquisar = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/veiculos${termoPesquisa ? `?search=${termoPesquisa}` : ''}`);
+      const data = await response.json();
+      setVeiculos(data);
+    } catch (error) {
+      console.error('Erro ao buscar veículos:', error);
+    }
+  };
+  
   const handleSelecionarVeiculo = (veiculo) => {
     setVeiculoSelecionado(veiculo);
     onVeiculoSelecionado(veiculo);
     onHide();
   };
 
+  const handleClose = () => {
+    setTermoPesquisa(''); 
+    setVeiculos([]); 
+    setVeiculoSelecionado(null); 
+    onHide(); 
+  };
+
   return (
-    <Modal show={show} onHide={onHide} size="md" centered>
+    <Modal show={show} onHide={handleClose} size="md" centered>
       <Modal.Header closeButton>
         <Modal.Title>Pesquisa Rápida de Veículos</Modal.Title>
       </Modal.Header>
@@ -41,8 +44,9 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
             placeholder="Digite a placa, marca ou modelo do veículo"
             value={termoPesquisa}
             onChange={(e) => setTermoPesquisa(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && pesquisar()}
           />
-          <Button variant="primary" onClick={() => setTermoPesquisa('')} className="ms-2">
+          <Button variant="primary" onClick={pesquisar} className="ms-2">
             <FaSearch />
           </Button>
         </div>
