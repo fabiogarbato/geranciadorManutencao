@@ -33,6 +33,21 @@ const CadastroVeiculo = () => {
         const valorFormatado = formatarPlaca(event.target.value);
         setPlaca(valorFormatado);
     };
+
+    
+    const [ano, setAno] = useState('');
+
+    const handleAnoChange = (event) => {
+      const valor = event.target.value;
+      const anoFormatado = valor.slice(0, 4); 
+      setAno(anoFormatado);
+    };
+
+    const [tipo, setTipo] = useState('');
+
+    const handleVeiculoChange = (event) => {
+        setTipo(event.target.value);
+    };
     
   return (
     <Container fluid style={{ backgroundColor: '#f2f8fb'}}>
@@ -72,9 +87,16 @@ const CadastroVeiculo = () => {
                                         </Form.Group>
                                     </Col>
                                     <Col md={6}>
-                                        <Form.Group className='mb-3' controlId="formAno">
-                                            <Form.Label><FaCalendarAlt /> Ano</Form.Label>
-                                            <Form.Control type="number" placeholder="Insira o ano do veículo" />
+                                    <Form.Group className='mb-3' controlId="formAno">
+                                        <Form.Label><FaCalendarAlt /> Ano</Form.Label>
+                                        <Form.Control
+                                            type="text" 
+                                            pattern="\d*" 
+                                            placeholder="Insira o ano do veículo"
+                                            value={ano}
+                                            onChange={handleAnoChange}
+                                            maxLength="4"
+                                        />
                                         </Form.Group>
                                     </Col>
                                 </Row>
@@ -94,13 +116,14 @@ const CadastroVeiculo = () => {
                                 </Row>
                                 <Row>
                                     <Col md={6}>
-                                        <Form.Group controlId="formTipo">
+                                        <Form.Group className='mb-3' controlId="formTipoVeiculo">
                                             <Form.Label><FaCarSide /> Tipo</Form.Label>
-                                            <Form.Control as="select">
-                                                <option>Carro</option>
-                                                <option>Moto</option>
-                                                <option>Caminhão</option>
-                                                <option>Outro</option>
+                                            <Form.Control as="select" value={tipo} onChange={handleVeiculoChange}>
+                                                <option value="">Selecione o tipo de veículo</option>
+                                                <option value="carro">Carro</option>
+                                                <option value="moto">Moto</option>
+                                                <option value="caminhao">Caminhão</option>
+                                                <option value="outro">Outro</option>
                                             </Form.Control>
                                         </Form.Group>
                                     </Col>
