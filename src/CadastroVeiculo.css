@@ -20,5 +20,14 @@
     margin-right: 5px;
   }
   
+  .custom-select {
+    background-position: right .75rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem .5rem;
+    padding-right: 2.25rem;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='12' viewBox='0 0 140 120'><path fill='%23000' d='M70 120L0 0h140z'/></svg>");
+  }
+
+  
   
   

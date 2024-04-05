@@ -4,6 +4,7 @@ html, body {
   width: 100vw;
   height: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
   .container-fluid {
     padding-right: 0;
     padding-left: 0;

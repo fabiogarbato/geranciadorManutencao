@@ -6,15 +6,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 import { FaTag, FaTrademark, FaCarAlt, FaCalendarAlt, FaPaintBrush, FaTachometerAlt, FaCarSide } from 'react-icons/fa';
 import BackButton from './Components/BackButton';
+import SaveButton from './Components/SaveButton';
+import RevertButton from './Components/RevertButton';
+import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal';
 
 const CadastroVeiculo = () => { 
-    
-    useEffect(() => {
-        document.body.style.overflowY = 'hidden';
-        return () => {
-            document.body.style.overflowY = 'auto';
-        };
-    }, []);
+
+    const [showModal, setShowModal] = useState(false);
 
     const [placa, setPlaca] = useState('');
 
@@ -34,7 +32,6 @@ const CadastroVeiculo = () => {
         setPlaca(valorFormatado);
     };
 
-    
     const [ano, setAno] = useState('');
 
     const handleAnoChange = (event) => {
@@ -48,6 +45,29 @@ const CadastroVeiculo = () => {
     const handleVeiculoChange = (event) => {
         setTipo(event.target.value);
     };
+
+    const [isSaving, setIsSaving] = useState(false);
+
+    const handleSave = async () => {
+        setIsSaving(true);
+        // Sua lógica de salvamento aqui...
+        // Após salvar:
+        setIsSaving(false);
+    };
+
+    const [isReverting, setIsReverting] = useState(false);
+
+    const handleRevert = async () => {
+      setIsReverting(true);
+      // Sua lógica para reverter mudanças aqui...
+      // Após reverter:
+      setIsReverting(false);
+    };   
+    
+    useEffect(() => {
+        document.body.style.overflowY = 'hidden';
+    }, []);
+    
     
   return (
     <Container fluid style={{ backgroundColor: '#f2f8fb'}}>
@@ -57,7 +77,7 @@ const CadastroVeiculo = () => {
                 <Col md={8}>
                     <Card>
                         <Card.Body>
-                            <Card.Title className="text-center mb-5">Cadastro de Veículo</Card.Title>
+                            <Card.Title className="text-center mb-3">Cadastro de Veículo</Card.Title>
                             <Form>
                                 <Row>
                                     <Col md={6}>
@@ -118,7 +138,7 @@ const CadastroVeiculo = () => {
                                     <Col md={6}>
                                         <Form.Group className='mb-3' controlId="formTipoVeiculo">
                                             <Form.Label><FaCarSide /> Tipo</Form.Label>
-                                            <Form.Control as="select" value={tipo} onChange={handleVeiculoChange}>
+                                            <Form.Control as="select" value={tipo} onChange={handleVeiculoChange} className="custom-select">
                                                 <option value="">Selecione o tipo de veículo</option>
                                                 <option value="carro">Carro</option>
                                                 <option value="moto">Moto</option>
@@ -127,11 +147,18 @@ const CadastroVeiculo = () => {
                                             </Form.Control>
                                         </Form.Group>
                                     </Col>
-                                </Row>
-                                <Button variant="primary" type="submit" className='mt-4'>
-                                    Cadastrar Veículo
-                                </Button>
+                                </Row>   
                             </Form>
+                                <div className="d-flex justify-content-end">
+                                    <Button onClick={() => setShowModal(true)}>Pesquisar Veículos</Button>
+                                    <PesquisaVeiculosModal
+                                        show={showModal}
+                                        onHide={() => setShowModal(false)}
+                                    />
+                                    <SaveButton onSave={handleSave} isSaving={isSaving} />
+                                    <RevertButton onRevert={handleRevert} isReverting={isReverting} />
+                                </div>
+                                
                         </Card.Body>
                     </Card>
                 </Col>

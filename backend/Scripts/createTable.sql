@@ -6,8 +6,11 @@ CREATE TABLE veiculos (
     ano INTEGER,
     cor VARCHAR(30),
     km_atual INTEGER,
-    tipo VARCHAR(30)
+    tipo VARCHAR(30),
+    created_at TIMESTAMPTZ NOT NULL,
+    updated_at TIMESTAMPTZ NOT NULL
 );
+
 
 CREATE TABLE agendamento_manutencao (
     id SERIAL PRIMARY KEY,

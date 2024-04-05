@@ -17,4 +17,5 @@ const sequelize = new Sequelize('manutencaoCarro', 'postgres', 'gbt101', {
     ssl: false
 });
 
-module.exports = pool;
+module.exports.pool = pool;
+module.exports.sequelize = sequelize;

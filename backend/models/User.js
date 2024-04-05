@@ -1,4 +1,4 @@
-const pool = require('../db'); 
+const { pool } = require('../db');
 
 class User {
     static async findByUsername(username) {
