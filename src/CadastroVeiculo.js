@@ -9,12 +9,19 @@ import BackButton from './Components/BackButton';
 import SaveButton from './Components/SaveButton';
 import RevertButton from './Components/RevertButton';
 import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal';
+import { API_BASE_URL } from './config';
 
 const CadastroVeiculo = () => { 
 
     const [showModal, setShowModal] = useState(false);
 
     const [placa, setPlaca] = useState('');
+    const [marca, setMarca] = useState('');
+    const [modelo, setModelo] = useState('');
+    const [ano, setAno] = useState('');
+    const [cor, setCor] = useState('');
+    const [km_atual, setkm_atual] = useState('');
+    const [tipo, setTipo] = useState('');
 
     const formatarPlaca = (valor) => {
         const valorSemFormatacao = valor.replace(/[^A-Z0-9]/gi, '').toUpperCase();
@@ -27,12 +34,11 @@ const CadastroVeiculo = () => {
         return valorSemFormatacao.slice(0, 3) + '-' + valorSemFormatacao.slice(3, 6);
     };
 
-    const handleChange = (event) => {
+    const handlePlacaChange = (event) => {
         const valorFormatado = formatarPlaca(event.target.value);
         setPlaca(valorFormatado);
       };
       
-    const [ano, setAno] = useState('');
 
     const handleAnoChange = (event) => {
       const valor = event.target.value;
@@ -40,29 +46,77 @@ const CadastroVeiculo = () => {
       setAno(anoFormatado);
     };
 
-    const [tipo, setTipo] = useState('');
-
     const handleVeiculoChange = (event) => {
         setTipo(event.target.value);
     };
 
     const [isSaving, setIsSaving] = useState(false);
 
-    const handleSave = async () => {
-        setIsSaving(true);
-        // Sua lógica de salvamento aqui...
-        // Após salvar:
-        setIsSaving(false);
+    const adicionarVeiculo = async () => {
+        try {
+            const veiculo = {
+                placa: placa,
+                marca: marca,
+                modelo: modelo,
+                ano: parseInt(ano, 10),
+                cor: cor,
+                km_atual: parseInt(km_atual, 10),
+                tipo: tipo
+            };
+    
+            const response = await fetch(`${API_BASE_URL}/veiculos`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(veiculo)
+            });
+    
+            if (response.ok) {
+                console.log('Veículo adicionado com sucesso!');
+            } else {
+                console.log('Enviando veículo:', JSON.stringify(veiculo));
+                console.error('Falha ao adicionar veículo');
+            }
+        } catch (error) {
+            console.error('Erro ao adicionar veículo:', error);
+        }
     };
 
-    const [isReverting, setIsReverting] = useState(false);
+    const handleSubmit = (event) => {
+        event.preventDefault(); 
+        adicionarVeiculo(); 
+    };
 
-    const handleRevert = async () => {
-      setIsReverting(true);
-      // Sua lógica para reverter mudanças aqui...
-      // Após reverter:
-      setIsReverting(false);
-    };   
+    const handleChange = (event) => {
+        const { id, value } = event.target;
+        switch (id) {
+            case 'formPlaca':
+                setPlaca(value);
+                break;
+            case 'formMarca':
+                setMarca(value);
+                break;
+            case 'formModelo':
+                setModelo(value);
+                break;
+            case 'formAno':
+                setAno(value);
+                break;
+            case 'formCor':
+                setCor(value);
+                break;
+            case 'formKmAtual':
+                setkm_atual(value);
+                break;
+            case 'formTipoVeiculo':
+                setTipo(value);
+                break;
+            default:
+                break;
+        }
+    };
+    
     
     useEffect(() => {
         document.body.style.overflowY = 'hidden';
@@ -87,7 +141,10 @@ const CadastroVeiculo = () => {
                                                 type="text"
                                                 placeholder="Insira a placa do veículo"
                                                 value={placa}
-                                                onChange={handleChange}
+                                                onChange={(event) => {
+                                                    handlePlacaChange(event);
+                                                    handleChange(event);
+                                                }}
                                                 maxLength="8"
                                             />
                                         </Form.Group>
@@ -95,7 +152,12 @@ const CadastroVeiculo = () => {
                                     <Col md={6}>
                                         <Form.Group className='mb-3' controlId="formMarca">
                                             <Form.Label><FaTrademark /> Marca</Form.Label>
-                                            <Form.Control type="text" placeholder="Insira a marca do veículo" />
+                                            <Form.Control 
+                                                type="text" 
+                                                placeholder="Insira a marca do veículo" 
+                                                value={marca}
+                                                onChange={handleChange} 
+                                            />
                                         </Form.Group>
                                     </Col>
                                 </Row>
@@ -103,7 +165,11 @@ const CadastroVeiculo = () => {
                                     <Col md={6}>
                                         <Form.Group className='mb-3' controlId="formModelo">
                                             <Form.Label><FaCarAlt /> Modelo</Form.Label>
-                                            <Form.Control type="text" placeholder="Insira o modelo do veículo" />
+                                            <Form.Control 
+                                                type="text" 
+                                                placeholder="Insira o modelo do veículo" 
+                                                value={modelo}
+                                                onChange={handleChange}/>
                                         </Form.Group>
                                     </Col>
                                     <Col md={6}>
@@ -124,13 +190,23 @@ const CadastroVeiculo = () => {
                                     <Col md={6}>
                                         <Form.Group className='mb-3' controlId="formCor">
                                             <Form.Label><FaPaintBrush /> Cor</Form.Label>
-                                            <Form.Control type="text" placeholder="Insira a cor do veículo" />
+                                            <Form.Control 
+                                                type="text" 
+                                                placeholder="Insira a cor do veículo" 
+                                                value={cor}
+                                                onChange={handleChange}
+                                            />
                                         </Form.Group>
                                     </Col>
                                     <Col md={6}>
                                         <Form.Group className='mb-3' controlId="formKmAtual">
                                             <Form.Label><FaTachometerAlt /> Quilometragem Atual</Form.Label>
-                                            <Form.Control type="number" placeholder="Insira a quilometragem atual" />
+                                            <Form.Control 
+                                                type="number" 
+                                                placeholder="Insira a quilometragem atual" 
+                                                value={km_atual}
+                                                onChange={handleChange}
+                                            />
                                         </Form.Group>
                                     </Col>
                                 </Row>
@@ -138,7 +214,15 @@ const CadastroVeiculo = () => {
                                     <Col md={6}>
                                         <Form.Group className='mb-3' controlId="formTipoVeiculo">
                                             <Form.Label><FaCarSide /> Tipo</Form.Label>
-                                            <Form.Control as="select" value={tipo} onChange={handleVeiculoChange} className="custom-select">
+                                            <Form.Control 
+                                                as="select" 
+                                                value={tipo} 
+                                                onChange={(event) => {
+                                                    handleVeiculoChange(event);
+                                                    handleChange(event);
+                                                }}
+                                                className="custom-select"
+                                            >
                                                 <option value="">Selecione o tipo de veículo</option>
                                                 <option value="carro">Carro</option>
                                                 <option value="moto">Moto</option>
@@ -156,8 +240,8 @@ const CadastroVeiculo = () => {
                                     onHide={() => setShowModal(false)}
                                 />
                                 <div>
-                                    <SaveButton onSave={handleSave} isSaving={isSaving} />
-                                    <RevertButton onRevert={handleRevert} isReverting={isReverting} />
+                                    <SaveButton onSave={handleSubmit} isSaving={isSaving} />
+                                    {/* <RevertButton onRevert={handleRevert} isReverting={isReverting} /> */}
                                 </div>
                             </div>     
                         </Card.Body>

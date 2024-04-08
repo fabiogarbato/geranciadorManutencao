@@ -1,6 +1,6 @@
 CREATE TABLE veiculos (
     id SERIAL PRIMARY KEY,
-    placa VARCHAR(7) UNIQUE NOT NULL,
+    placa VARCHAR(8) UNIQUE NOT NULL,
     marca VARCHAR(50),
     modelo VARCHAR(50),
     ano INTEGER,

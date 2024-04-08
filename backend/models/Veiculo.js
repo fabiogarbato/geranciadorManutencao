@@ -27,7 +27,8 @@ Veiculo.init({
     type: DataTypes.STRING(30)
   },
   km_atual: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    field: 'km_atual'
   },
   tipo: {
     type: DataTypes.STRING(30)
