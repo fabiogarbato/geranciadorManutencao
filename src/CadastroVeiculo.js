@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { FaTag, FaTrademark, FaCarAlt, FaCalendarAlt, FaPaintBrush, FaTachometerAlt, FaCarSide } from 'react-icons/fa';
 import BackButton from './Components/BackButton';
 import SaveButton from './Components/SaveButton';
+import ClearButton from './Components/ClearButton';
 import RevertButton from './Components/RevertButton';
 import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal';
 import { API_BASE_URL } from './config';
@@ -50,8 +51,6 @@ const CadastroVeiculo = () => {
         setTipo(event.target.value);
     };
 
-    const [isSaving, setIsSaving] = useState(false);
-
     const adicionarVeiculo = async () => {
         try {
             const veiculo = {
@@ -88,6 +87,16 @@ const CadastroVeiculo = () => {
         adicionarVeiculo(); 
     };
 
+    const handleClear = () => {
+        setPlaca('');
+        setMarca('');
+        setModelo('');
+        setAno('');
+        setCor('');
+        setkm_atual('');
+        setTipo('');
+    };    
+
     const handleChange = (event) => {
         const { id, value } = event.target;
         switch (id) {
@@ -116,7 +125,6 @@ const CadastroVeiculo = () => {
                 break;
         }
     };
-    
     
     useEffect(() => {
         document.body.style.overflowY = 'hidden';
@@ -240,7 +248,8 @@ const CadastroVeiculo = () => {
                                     onHide={() => setShowModal(false)}
                                 />
                                 <div>
-                                    <SaveButton onSave={handleSubmit} isSaving={isSaving} />
+                                    <SaveButton onSave={handleSubmit} />
+                                    <ClearButton onClear={handleClear} />
                                     {/* <RevertButton onRevert={handleRevert} isReverting={isReverting} /> */}
                                 </div>
                             </div>     
