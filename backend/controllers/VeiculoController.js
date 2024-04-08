@@ -1,4 +1,5 @@
 const Veiculo = require('../models/Veiculo');
+const { Op } = require('sequelize');
 
 const DEBUG = false; 
 
@@ -25,14 +26,23 @@ class VeiculoController {
     }
   }
 
-  async getOne(req, res) {
+  async search(req, res) {
     try {
-      const veiculo = await Veiculo.findByPk(req.params.id);
-      if (DEBUG) console.log(`Veículo com ID ${req.params.id}:`, veiculo);
-      return res.status(200).send(veiculo);
+        const searchTerm = req.query.search;
+        const veiculos = await Veiculo.findAll({
+            where: {
+                [Op.or]: [
+                    { placa: { [Op.like]: `%${searchTerm}%` } },
+                    { marca: { [Op.like]: `%${searchTerm}%` } },
+                    { modelo: { [Op.like]: `%${searchTerm}%` } }
+                ]
+            }
+        });
+        if (DEBUG) console.log(`Veículos encontrados para o termo de pesquisa "${searchTerm}":`, veiculos);
+        return res.status(200).send(veiculos);
     } catch (error) {
-      if (DEBUG) console.error(`Erro ao buscar veículo com ID ${req.params.id}:`, error);
-      return res.status(400).send(error);
+        if (DEBUG) console.error(`Erro ao buscar veículos para o termo de pesquisa "${req.query.search}":`, error);
+        return res.status(400).send(error);
     }
   }
 

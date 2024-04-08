@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Form, ListGroup, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Modal, Form, ListGroup, Button, Table } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import { API_BASE_URL } from '../config';
 import '../CadastroVeiculo.css'
@@ -11,14 +11,19 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
 
   const pesquisar = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/veiculos${termoPesquisa ? `?search=${termoPesquisa}` : ''}`);
-      const data = await response.json();
-      setVeiculos(data);
+        const termoPesquisaTrimmed = termoPesquisa.trim();
+        const endpoint = termoPesquisaTrimmed
+            ? `/veiculos/search?search=${encodeURIComponent(termoPesquisaTrimmed)}`
+            : '/veiculos';
+
+        const response = await fetch(`${API_BASE_URL}${endpoint}`);
+        const data = await response.json();
+        setVeiculos(data);
     } catch (error) {
-      console.error('Erro ao buscar veículos:', error);
+        console.error('Erro ao buscar veículos:', error);
     }
   };
-  
+
   const handleSelecionarVeiculo = (veiculo) => {
     setVeiculoSelecionado(veiculo);
     onVeiculoSelecionado(veiculo);
@@ -32,8 +37,33 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
     onHide(); 
   };
 
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
+
+  const [ordenacao, setOrdenacao] = useState({ coluna: 'placa', direcao: 'asc' });
+
+  const ordenarVeiculos = (coluna) => {
+    const direcao = ordenacao.coluna === coluna && ordenacao.direcao === 'asc' ? 'desc' : 'asc';
+    setOrdenacao({ coluna, direcao });
+};
+
+  const renderSortIcon = (coluna) => {
+    if (ordenacao.coluna === coluna) {
+        return ordenacao.direcao === 'asc' ? ' ↑' : ' ↓';
+    }
+    return ' ↕'; 
+  };
+
+  const veiculosOrdenados = [...veiculos].sort((a, b) => {
+    if (a[ordenacao.coluna] < b[ordenacao.coluna]) return ordenacao.direcao === 'asc' ? -1 : 1;
+    if (a[ordenacao.coluna] > b[ordenacao.coluna]) return ordenacao.direcao === 'asc' ? 1 : -1;
+    return 0;
+  });
+
   return (
-    <Modal show={show} onHide={handleClose} size="md" centered>
+    <Modal show={show} onHide={handleClose} size="lg" centered>
       <Modal.Header closeButton>
         <Modal.Title>Pesquisa Rápida de Veículos</Modal.Title>
       </Modal.Header>
@@ -50,18 +80,32 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
             <FaSearch />
           </Button>
         </div>
-        <ListGroup className="mt-3">
-          {veiculos.map((veiculo) => (
-            <ListGroup.Item
-              key={veiculo.id}
-              action
-              onClick={() => handleSelecionarVeiculo(veiculo)}
-              active={veiculoSelecionado?.id === veiculo.id}
-            >
-              {veiculo.placa} - {veiculo.marca} {veiculo.modelo}
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
+        <Table striped bordered hover className="mt-3">
+      <thead>
+        <tr>
+          <th onClick={() => ordenarVeiculos('placa')}>Placa{renderSortIcon('placa')}</th>
+          <th onClick={() => ordenarVeiculos('marca')}>Marca{renderSortIcon('marca')}</th>
+          <th onClick={() => ordenarVeiculos('modelo')}>Modelo{renderSortIcon('modelo')}</th>
+          <th onClick={() => ordenarVeiculos('ano')}>Ano{renderSortIcon('ano')}</th>
+          <th onClick={() => ordenarVeiculos('cor')}>Cor{renderSortIcon('cor')}</th>
+          <th onClick={() => ordenarVeiculos('km_atual')}>Km Atual{renderSortIcon('km_atual')}</th>
+          <th onClick={() => ordenarVeiculos('tipo')}>Tipo{renderSortIcon('tipo')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {veiculosOrdenados.map((veiculo) => (
+          <tr key={veiculo.id}>
+            <td>{veiculo.placa}</td>
+            <td>{veiculo.marca}</td>
+            <td>{veiculo.modelo}</td>
+            <td>{veiculo.ano}</td>
+            <td>{veiculo.cor}</td>
+            <td>{veiculo.km_atual}</td>
+            <td>{capitalizeFirstLetter(veiculo.tipo)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
       </Modal.Body>
     </Modal>
 

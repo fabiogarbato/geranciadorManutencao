@@ -8,10 +8,9 @@ import { FaTag, FaTrademark, FaCarAlt, FaCalendarAlt, FaPaintBrush, FaTachometer
 import BackButton from './Components/BackButton';
 import SaveButton from './Components/SaveButton';
 import ClearButton from './Components/ClearButton';
-import RevertButton from './Components/RevertButton';
 import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal';
 import { API_BASE_URL } from './config';
-import {showMessageSuccess, showMessageWarn} from './utils.js';
+import {showMessageSuccess, showMessageWarn, showMessageInfo} from './utils.js';
 
 const CadastroVeiculo = () => { 
 
@@ -35,12 +34,6 @@ const CadastroVeiculo = () => {
         }
         return valorSemFormatacao.slice(0, 3) + '-' + valorSemFormatacao.slice(3, 6);
     };
-
-    const handlePlacaChange = (event) => {
-        const valorFormatado = formatarPlaca(event.target.value);
-        setPlaca(valorFormatado);
-      };
-      
 
     const handleAnoChange = (event) => {
       const valor = event.target.value;
@@ -80,7 +73,6 @@ const CadastroVeiculo = () => {
                 showMessageSuccess("Veículo adicionado com sucesso!");
                 console.log('Veículo adicionado com sucesso!');
             } else {
-                console.log('Enviando veículo:', JSON.stringify(veiculo));
                 console.error('Falha ao adicionar veículo');
             }
         } catch (error) {
@@ -92,6 +84,7 @@ const CadastroVeiculo = () => {
         event.preventDefault();
         if (isFormValid()) {
             adicionarVeiculo();
+            handleClear();
         } else {
             showMessageWarn('Por favor, preencha todos os campos do formulário.');
         }
@@ -111,7 +104,7 @@ const CadastroVeiculo = () => {
         const { id, value } = event.target;
         switch (id) {
             case 'formPlaca':
-                setPlaca(value);
+                setPlaca(formatarPlaca(value));
                 break;
             case 'formMarca':
                 setMarca(value);
@@ -159,10 +152,7 @@ const CadastroVeiculo = () => {
                                                 type="text"
                                                 placeholder="Insira a placa do veículo"
                                                 value={placa}
-                                                onChange={(event) => {
-                                                    handlePlacaChange(event);
-                                                    handleChange(event);
-                                                }}
+                                                onChange={handleChange}
                                                 maxLength="8"
                                             />
                                         </Form.Group>
@@ -259,7 +249,7 @@ const CadastroVeiculo = () => {
                                 />
                                 <div>
                                     <SaveButton onSave={handleSubmit} />
-                                    <ClearButton onClear={handleClear} />
+                                    <ClearButton onClear={handleClear}/>
                                     {/* <RevertButton onRevert={handleRevert} isReverting={isReverting} /> */}
                                 </div>
                             </div>     

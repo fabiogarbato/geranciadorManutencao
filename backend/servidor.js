@@ -14,7 +14,7 @@ const veiculoController = new VeiculoController();
 
 app.post('/veiculos', veiculoController.create);
 app.get('/veiculos', veiculoController.getAll);
-app.get('/veiculos/:id', veiculoController.getOne);
+app.get('/veiculos/search', veiculoController.search);
 app.put('/veiculos/:id', veiculoController.update);
 app.delete('/veiculos/:id', veiculoController.delete);
 

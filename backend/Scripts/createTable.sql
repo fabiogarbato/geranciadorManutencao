@@ -1,3 +1,17 @@
+CREATE TABLE Usuarios (
+    id SERIAL PRIMARY KEY,
+    usuario VARCHAR(50) NOT NULL,
+    senha TEXT NOT NULL
+);
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+INSERT INTO Usuarios (usuario, senha)
+VALUES (
+    'admin', 
+    crypt('admin', gen_salt('bf'))
+);
+
 CREATE TABLE veiculos (
     id SERIAL PRIMARY KEY,
     placa VARCHAR(8) UNIQUE NOT NULL,
@@ -10,7 +24,6 @@ CREATE TABLE veiculos (
     created_at TIMESTAMPTZ NOT NULL,
     updated_at TIMESTAMPTZ NOT NULL
 );
-
 
 CREATE TABLE agendamento_manutencao (
     id SERIAL PRIMARY KEY,
