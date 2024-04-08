@@ -24,12 +24,6 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
     }
   };
 
-  const handleSelecionarVeiculo = (veiculo) => {
-    setVeiculoSelecionado(veiculo);
-    onVeiculoSelecionado(veiculo);
-    onHide();
-  };
-
   const handleClose = () => {
     setTermoPesquisa(''); 
     setVeiculos([]); 

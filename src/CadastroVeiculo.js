@@ -11,6 +11,7 @@ import ClearButton from './Components/ClearButton';
 import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal';
 import { API_BASE_URL } from './config';
 import {showMessageSuccess, showMessageWarn, showMessageInfo} from './utils.js';
+import useButtonState from './Components/useButtonState.js';
 
 const CadastroVeiculo = () => { 
 
@@ -23,6 +24,9 @@ const CadastroVeiculo = () => {
     const [cor, setCor] = useState('');
     const [km_atual, setkm_atual] = useState('');
     const [tipo, setTipo] = useState('');
+
+    const { isSaveButtonEnabled, isClearButtonEnabled } = useButtonState(placa, marca, modelo, ano, cor, km_atual, tipo);
+
 
     const formatarPlaca = (valor) => {
         const valorSemFormatacao = valor.replace(/[^A-Z0-9]/gi, '').toUpperCase();
@@ -100,23 +104,35 @@ const CadastroVeiculo = () => {
         setTipo('');
     };    
 
+    const toUpperCaseAndLimit = (value) => {
+        return value.toUpperCase().slice(0, 30);
+    };    
+
+    // useEffect(() => {
+    //     const isAnyFieldFilled = placa.trim() || marca.trim() || modelo.trim() || ano.trim() || cor.trim() || km_atual.trim() || tipo.trim();
+    //     setIsSaveButtonEnabled(isAnyFieldFilled);
+    //     setIsClearButtonEnabled(isAnyFieldFilled);
+    // }, [placa, marca, modelo, ano, cor, km_atual, tipo]);
+
     const handleChange = (event) => {
         const { id, value } = event.target;
+        const formattedValue = toUpperCaseAndLimit(value);
+
         switch (id) {
             case 'formPlaca':
                 setPlaca(formatarPlaca(value));
                 break;
             case 'formMarca':
-                setMarca(value);
+                setMarca(formattedValue);
                 break;
             case 'formModelo':
-                setModelo(value);
+                setModelo(formattedValue);
                 break;
             case 'formAno':
                 setAno(value);
                 break;
             case 'formCor':
-                setCor(value);
+                setCor(formattedValue);
                 break;
             case 'formKmAtual':
                 setkm_atual(value);
@@ -127,6 +143,10 @@ const CadastroVeiculo = () => {
             default:
                 break;
         }
+
+        // const isAnyFieldFilled = placa.trim() || marca.trim() || modelo.trim() || ano.trim() || cor.trim() || km_atual.trim() || tipo.trim();
+        // setIsSaveButtonEnabled(isAnyFieldFilled);
+        // setIsClearButtonEnabled(isAnyFieldFilled);
     };
     
     useEffect(() => {
@@ -142,7 +162,7 @@ const CadastroVeiculo = () => {
                 <Col md={8}>
                     <Card>
                         <Card.Body>
-                            <Card.Title className="text-center mb-3">Cadastro de Veículo</Card.Title>
+                            <Card.Title className="text-center mb-4">Cadastro de Veículo</Card.Title>
                             <Form>
                                 <Row>
                                     <Col md={6}>
@@ -248,9 +268,8 @@ const CadastroVeiculo = () => {
                                     onHide={() => setShowModal(false)}
                                 />
                                 <div>
-                                    <SaveButton onSave={handleSubmit} />
-                                    <ClearButton onClear={handleClear}/>
-                                    {/* <RevertButton onRevert={handleRevert} isReverting={isReverting} /> */}
+                                    <SaveButton onSave={handleSubmit} isDisabled={!isSaveButtonEnabled} />
+                                    <ClearButton onClear={handleClear} isDisabled={!isClearButtonEnabled} />
                                 </div>
                             </div>     
                         </Card.Body>

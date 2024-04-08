@@ -1,15 +1,14 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { FaSave } from 'react-icons/fa'; 
+import { FaSave } from 'react-icons/fa';
 
-const SaveButton = ({ onSave, isSaving = false }) => {
-
+const SaveButton = ({ onSave, isSaving = false, isDisabled = false }) => {
   return (
-    <Button 
-      variant="success" 
-      onClick={onSave} 
-      disabled={isSaving} 
-      className='btn-lg mt-2 me-2'
+    <Button
+      variant="success"
+      onClick={onSave}
+      disabled={isSaving || isDisabled}
+      className="btn-lg mt-2 me-2"
     >
       <FaSave />
     </Button>
@@ -17,4 +16,3 @@ const SaveButton = ({ onSave, isSaving = false }) => {
 };
 
 export default SaveButton;
-
