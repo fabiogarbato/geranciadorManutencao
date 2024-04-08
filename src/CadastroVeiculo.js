@@ -11,6 +11,7 @@ import ClearButton from './Components/ClearButton';
 import RevertButton from './Components/RevertButton';
 import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal';
 import { API_BASE_URL } from './config';
+import {showMessageSuccess, showMessageWarn} from './utils.js';
 
 const CadastroVeiculo = () => { 
 
@@ -51,6 +52,10 @@ const CadastroVeiculo = () => {
         setTipo(event.target.value);
     };
 
+    const isFormValid = () => {
+        return placa && marca && modelo && ano && cor && km_atual && tipo;
+    };
+
     const adicionarVeiculo = async () => {
         try {
             const veiculo = {
@@ -72,6 +77,7 @@ const CadastroVeiculo = () => {
             });
     
             if (response.ok) {
+                showMessageSuccess("Veículo adicionado com sucesso!");
                 console.log('Veículo adicionado com sucesso!');
             } else {
                 console.log('Enviando veículo:', JSON.stringify(veiculo));
@@ -83,8 +89,12 @@ const CadastroVeiculo = () => {
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault(); 
-        adicionarVeiculo(); 
+        event.preventDefault();
+        if (isFormValid()) {
+            adicionarVeiculo();
+        } else {
+            showMessageWarn('Por favor, preencha todos os campos do formulário.');
+        }
     };
 
     const handleClear = () => {

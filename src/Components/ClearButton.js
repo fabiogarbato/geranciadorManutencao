@@ -6,7 +6,7 @@ const ClearButton = ({ onClear, isClearing = false }) => {
 
   return (
     <Button 
-      variant="danger" 
+      variant="primary" 
       onClick={onClear} 
       disabled={isClearing} 
       className='btn-lg mt-2 me-2'
