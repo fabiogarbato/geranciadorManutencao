@@ -3,8 +3,8 @@ import { Container, Row, Col, Offcanvas, Nav } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link, useNavigate } from 'react-router-dom'
-import Footer from './Footer'
-import NavBar from './Navbar'
+import Footer from './Components/Footer'
+import NavBar from './Components/Navbar'
 import {
   FaSignOutAlt,
   FaBars,

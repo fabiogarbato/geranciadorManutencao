@@ -1,6 +1,6 @@
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap'
-import NavBar from './Navbar'
-import Footer from './Footer'
+import NavBar from './Components/Navbar.js'
+import Footer from './Components/Footer.js'
 import './CadastroVeiculo.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { useEffect, useState } from 'react'

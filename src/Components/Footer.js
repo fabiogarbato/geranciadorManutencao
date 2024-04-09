@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap'
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import packageJson from '../package.json'
+import packageJson from '../../package.json'
 
 const Footer = () => {
   return (
