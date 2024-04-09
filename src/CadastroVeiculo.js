@@ -8,15 +8,15 @@ import { FaTag, FaTrademark, FaCarAlt, FaCalendarAlt, FaPaintBrush, FaTachometer
 import BackButton from './Components/BackButton';
 import SaveButton from './Components/SaveButton';
 import ClearButton from './Components/ClearButton';
-import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal';
 import { API_BASE_URL } from './config';
-import {showMessageSuccess, showMessageWarn, showMessageInfo} from './utils.js';
+import {showMessageSuccess, showMessageWarn} from './utils.js';
 import useButtonState from './Components/useButtonState.js';
+import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal';
 
 const CadastroVeiculo = () => { 
 
     const [showModal, setShowModal] = useState(false);
-
+    const [veiculoId, setVeiculoId] = useState(null);
     const [placa, setPlaca] = useState('');
     const [marca, setMarca] = useState('');
     const [modelo, setModelo] = useState('');
@@ -24,9 +24,21 @@ const CadastroVeiculo = () => {
     const [cor, setCor] = useState('');
     const [km_atual, setkm_atual] = useState('');
     const [tipo, setTipo] = useState('');
-
     const { isSaveButtonEnabled, isClearButtonEnabled } = useButtonState(placa, marca, modelo, ano, cor, km_atual, tipo);
+    const [isUpdating, setIsUpdating] = useState(false);
 
+    const handleVeiculoSelecionado = (veiculo) => {
+        setPlaca(veiculo.placa);
+        setMarca(veiculo.marca);
+        setModelo(veiculo.modelo);
+        setAno(veiculo.ano);
+        setCor(veiculo.cor);
+        setkm_atual(veiculo.km_atual);
+        setTipo(veiculo.tipo);
+        setVeiculoId(veiculo.id);
+        setIsUpdating(true);
+      };
+      
 
     const formatarPlaca = (valor) => {
         const valorSemFormatacao = valor.replace(/[^A-Z0-9]/gi, '').toUpperCase();
@@ -84,15 +96,51 @@ const CadastroVeiculo = () => {
         }
     };
 
+    const atualizarVeiculo = async () => {
+        try {
+            const veiculo = {
+                placa: placa,
+                marca: marca,
+                modelo: modelo,
+                ano: parseInt(ano, 10),
+                cor: cor,
+                km_atual: parseInt(km_atual, 10),
+                tipo: tipo
+            };
+    
+            const response = await fetch(`${API_BASE_URL}/veiculos/${veiculoId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(veiculo)
+            });
+    
+            if (response.ok) {
+                showMessageSuccess("Veículo atualizado com sucesso!");
+                console.log('Veículo atualizado com sucesso!');
+            } else {
+                console.error('Falha ao atualizar veículo');
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar veículo:', error);
+        }
+    };
+        
+
     const handleSubmit = (event) => {
         event.preventDefault();
         if (isFormValid()) {
-            adicionarVeiculo();
+            if (isUpdating) {
+                atualizarVeiculo();
+            } else {
+                adicionarVeiculo();
+            }
             handleClear();
         } else {
             showMessageWarn('Por favor, preencha todos os campos do formulário.');
         }
-    };
+    };    
 
     const handleClear = () => {
         setPlaca('');
@@ -107,12 +155,6 @@ const CadastroVeiculo = () => {
     const toUpperCaseAndLimit = (value) => {
         return value.toUpperCase().slice(0, 30);
     };    
-
-    // useEffect(() => {
-    //     const isAnyFieldFilled = placa.trim() || marca.trim() || modelo.trim() || ano.trim() || cor.trim() || km_atual.trim() || tipo.trim();
-    //     setIsSaveButtonEnabled(isAnyFieldFilled);
-    //     setIsClearButtonEnabled(isAnyFieldFilled);
-    // }, [placa, marca, modelo, ano, cor, km_atual, tipo]);
 
     const handleChange = (event) => {
         const { id, value } = event.target;
@@ -144,9 +186,6 @@ const CadastroVeiculo = () => {
                 break;
         }
 
-        // const isAnyFieldFilled = placa.trim() || marca.trim() || modelo.trim() || ano.trim() || cor.trim() || km_atual.trim() || tipo.trim();
-        // setIsSaveButtonEnabled(isAnyFieldFilled);
-        // setIsClearButtonEnabled(isAnyFieldFilled);
     };
     
     useEffect(() => {
@@ -266,7 +305,9 @@ const CadastroVeiculo = () => {
                                 <PesquisaVeiculosModal
                                     show={showModal}
                                     onHide={() => setShowModal(false)}
+                                    onVeiculoSelecionado={handleVeiculoSelecionado}
                                 />
+
                                 <div>
                                     <SaveButton onSave={handleSubmit} isDisabled={!isSaveButtonEnabled} />
                                     <ClearButton onClear={handleClear} isDisabled={!isClearButtonEnabled} />

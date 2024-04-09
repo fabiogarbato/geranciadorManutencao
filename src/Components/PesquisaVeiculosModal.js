@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, ListGroup, Button, Table } from 'react-bootstrap';
+import { Modal, Form, Button, Table } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import { API_BASE_URL } from '../config';
 import '../CadastroVeiculo.css'
@@ -8,6 +8,11 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
   const [termoPesquisa, setTermoPesquisa] = useState('');
   const [veiculos, setVeiculos] = useState([]);
   const [veiculoSelecionado, setVeiculoSelecionado] = useState(null);
+
+  const handleSelecionarVeiculo = (veiculo) => {
+    onVeiculoSelecionado(veiculo);
+    onHide();
+  };
 
   const pesquisar = async () => {
     try {
@@ -88,7 +93,7 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
       </thead>
       <tbody>
         {veiculosOrdenados.map((veiculo) => (
-          <tr key={veiculo.id}>
+          <tr key={veiculo.id} onClick={() => handleSelecionarVeiculo(veiculo)}>
             <td>{veiculo.placa}</td>
             <td>{veiculo.marca}</td>
             <td>{veiculo.modelo}</td>
