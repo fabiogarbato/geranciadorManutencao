@@ -147,6 +147,7 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
               <tr
                 key={veiculo.id}
                 onClick={() => handleSelecionarVeiculo(veiculo)}
+                style={{ cursor: 'pointer' }}
               >
                 <td>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
