@@ -72,7 +72,7 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
             type="text"
             placeholder="Digite a placa, marca ou modelo do veículo"
             value={termoPesquisa}
-            onChange={(e) => setTermoPesquisa(e.target.value)}
+            onChange={(e) => setTermoPesquisa(e.target.value.toUpperCase())} // Converte para maiúsculas
             onKeyPress={(e) => e.key === 'Enter' && pesquisar()}
           />
           <Button variant="primary" onClick={pesquisar} className="ms-2">
