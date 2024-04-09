@@ -125,8 +125,7 @@ const CadastroVeiculo = () => {
         } catch (error) {
             console.error('Erro ao atualizar veículo:', error);
         }
-    };
-        
+    };  
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -319,7 +318,7 @@ const CadastroVeiculo = () => {
             </Row>
         </Container>
         <Container className='mt-4 text-center'>
-            <BackButton backPath="/Home" />
+            <BackButton backPath="/Home" shouldConfirm={isSaveButtonEnabled || isClearButtonEnabled} />
         </Container>
         <Container>
             <Footer/>

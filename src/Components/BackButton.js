@@ -1,14 +1,25 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import ConfirmationModal from './ConfirmationModal';
 import { Button } from 'react-bootstrap';
 
-const BackButton = ({ backPath }) => {
-  let navigate = useNavigate();
+const BackButton = ({ backPath, shouldConfirm }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleBack = () => {
+    if (shouldConfirm) {
+      setShowModal(true);
+    } else {
+      window.location.href = backPath;
+    }
+  };
 
   return (
-    <Button variant="secondary" onClick={() => navigate(backPath)}>
+    <>
+      <Button variant="secondary" onClick={handleBack}>
         Voltar
-    </Button>
+      </Button>
+      <ConfirmationModal show={showModal} onClose={() => setShowModal(false)} />
+    </>
   );
 };
 
