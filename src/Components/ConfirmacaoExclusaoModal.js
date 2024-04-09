@@ -10,10 +10,10 @@ const ConfirmacaoExclusaoModal = ({ show, onClose, onConfirm }) => {
         <Modal.Body>Tem certeza que deseja excluir?</Modal.Body>
         <Modal.Footer>
             <Button variant="secondary" onClick={onClose}>
-            Cancelar
+                Cancelar
             </Button>
             <Button variant="danger" onClick={onConfirm}>
-            Excluir
+                Excluir
             </Button>
         </Modal.Footer>
     </Modal>

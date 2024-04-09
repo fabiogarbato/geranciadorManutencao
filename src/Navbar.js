@@ -15,7 +15,6 @@ const NavBar = ({ title }) => {
         backgroundColor: '#1A3E5C',
         minWidth: '100vh',
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-        borderRadius: '10px',
         opacity: '0.9',
         minHeight: '12vh',
       }}
