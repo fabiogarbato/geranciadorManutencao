@@ -159,11 +159,14 @@ const CadastroVeiculo = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isFormValid()) {
-      const placaExiste = await verificarPlacaExistente(placa);
-      if (placaExiste) {
-        showMessageWarn('Placa já cadastrada no sistema!');
-        return;
+      if (!isUpdating) {
+        const placaExiste = await verificarPlacaExistente(placa);
+        if (placaExiste) {
+          showMessageWarn('Placa já cadastrada no sistema!');
+          return;
+        }
       }
+  
       if (isUpdating) {
         atualizarVeiculo();
       } else {
@@ -173,7 +176,7 @@ const CadastroVeiculo = () => {
     } else {
       showMessageWarn('Por favor, preencha todos os campos do formulário.');
     }
-  };  
+  };
 
   const handleClear = () => {
     setIsUpdating(false)
