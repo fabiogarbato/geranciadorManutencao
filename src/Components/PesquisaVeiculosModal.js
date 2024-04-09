@@ -80,31 +80,31 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
           </Button>
         </div>
         <Table striped bordered hover className="mt-3">
-      <thead>
-        <tr>
-          <th onClick={() => ordenarVeiculos('placa')}>Placa{renderSortIcon('placa')}</th>
-          <th onClick={() => ordenarVeiculos('marca')}>Marca{renderSortIcon('marca')}</th>
-          <th onClick={() => ordenarVeiculos('modelo')}>Modelo{renderSortIcon('modelo')}</th>
-          <th onClick={() => ordenarVeiculos('ano')}>Ano{renderSortIcon('ano')}</th>
-          <th onClick={() => ordenarVeiculos('cor')}>Cor{renderSortIcon('cor')}</th>
-          <th onClick={() => ordenarVeiculos('km_atual')}>Km Atual{renderSortIcon('km_atual')}</th>
-          <th onClick={() => ordenarVeiculos('tipo')}>Tipo{renderSortIcon('tipo')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {veiculosOrdenados.map((veiculo) => (
-          <tr key={veiculo.id} onClick={() => handleSelecionarVeiculo(veiculo)}>
-            <td>{veiculo.placa}</td>
-            <td>{veiculo.marca}</td>
-            <td>{veiculo.modelo}</td>
-            <td>{veiculo.ano}</td>
-            <td>{veiculo.cor}</td>
-            <td>{veiculo.km_atual}</td>
-            <td>{capitalizeFirstLetter(veiculo.tipo)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+          <thead>
+            <tr>
+              <th onClick={() => ordenarVeiculos('placa')}>Placa{renderSortIcon('placa')}</th>
+              <th onClick={() => ordenarVeiculos('marca')}>Marca{renderSortIcon('marca')}</th>
+              <th onClick={() => ordenarVeiculos('modelo')}>Modelo{renderSortIcon('modelo')}</th>
+              <th onClick={() => ordenarVeiculos('ano')}>Ano{renderSortIcon('ano')}</th>
+              <th onClick={() => ordenarVeiculos('cor')}>Cor{renderSortIcon('cor')}</th>
+              <th onClick={() => ordenarVeiculos('km_atual')}>Km Atual{renderSortIcon('km_atual')}</th>
+              <th onClick={() => ordenarVeiculos('tipo')}>Tipo{renderSortIcon('tipo')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {veiculosOrdenados.map((veiculo) => (
+              <tr key={veiculo.id} onClick={() => handleSelecionarVeiculo(veiculo)}>
+                <td>{veiculo.placa}</td>
+                <td>{veiculo.marca}</td>
+                <td>{veiculo.modelo}</td>
+                <td>{veiculo.ano}</td>
+                <td>{veiculo.cor}</td>
+                <td>{veiculo.km_atual}</td>
+                <td>{capitalizeFirstLetter(veiculo.tipo)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </Modal.Body>
     </Modal>
 
