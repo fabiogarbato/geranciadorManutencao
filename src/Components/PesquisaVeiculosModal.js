@@ -148,13 +148,41 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
                 key={veiculo.id}
                 onClick={() => handleSelecionarVeiculo(veiculo)}
               >
-                <td>{veiculo.placa}</td>
-                <td>{veiculo.marca}</td>
-                <td>{veiculo.modelo}</td>
-                <td>{veiculo.ano}</td>
-                <td>{veiculo.cor}</td>
-                <td>{veiculo.km_atual}</td>
-                <td>{capitalizeFirstLetter(veiculo.tipo)}</td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {veiculo.placa}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {veiculo.marca}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {veiculo.modelo}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>                
+                    {veiculo.ano}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {veiculo.cor}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {veiculo.km_atual}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {capitalizeFirstLetter(veiculo.tipo)}
+                  </div>
+                </td>
                 <td>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button variant="danger" onClick={(e) => confirmarExclusao(e, veiculo.id)}>
