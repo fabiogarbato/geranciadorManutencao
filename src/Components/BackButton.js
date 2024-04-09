@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import ConfirmationModal from './ConfirmationModal';
-import { Button } from 'react-bootstrap';
+import React, { useState } from 'react'
+import ConfirmationModal from './ConfirmationModal'
+import { Button } from 'react-bootstrap'
 
 const BackButton = ({ backPath, shouldConfirm }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false)
 
   const handleBack = () => {
     if (shouldConfirm) {
-      setShowModal(true);
+      setShowModal(true)
     } else {
-      window.location.href = backPath;
+      window.location.href = backPath
     }
-  };
+  }
 
   return (
     <>
@@ -20,7 +20,7 @@ const BackButton = ({ backPath, shouldConfirm }) => {
       </Button>
       <ConfirmationModal show={showModal} onClose={() => setShowModal(false)} />
     </>
-  );
-};
+  )
+}
 
-export default BackButton;
+export default BackButton

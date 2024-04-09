@@ -1,65 +1,73 @@
-import React, { useState } from 'react';
-import { Modal, Form, Button, Table } from 'react-bootstrap';
-import { FaSearch } from 'react-icons/fa';
-import { API_BASE_URL } from '../config';
+import React, { useState } from 'react'
+import { Modal, Form, Button, Table } from 'react-bootstrap'
+import { FaSearch } from 'react-icons/fa'
+import { API_BASE_URL } from '../config'
 import '../CadastroVeiculo.css'
 
 const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
-  const [termoPesquisa, setTermoPesquisa] = useState('');
-  const [veiculos, setVeiculos] = useState([]);
-  const [veiculoSelecionado, setVeiculoSelecionado] = useState(null);
+  const [termoPesquisa, setTermoPesquisa] = useState('')
+  const [veiculos, setVeiculos] = useState([])
+  const [veiculoSelecionado, setVeiculoSelecionado] = useState(null)
 
   const handleSelecionarVeiculo = (veiculo) => {
-    onVeiculoSelecionado(veiculo);
-    onHide();
-  };
+    onVeiculoSelecionado(veiculo)
+    onHide()
+  }
 
   const pesquisar = async () => {
     try {
-        const termoPesquisaTrimmed = termoPesquisa.trim();
-        const endpoint = termoPesquisaTrimmed
-            ? `/veiculos/search?search=${encodeURIComponent(termoPesquisaTrimmed)}`
-            : '/veiculos';
+      const termoPesquisaTrimmed = termoPesquisa.trim()
+      const endpoint = termoPesquisaTrimmed
+        ? `/veiculos/search?search=${encodeURIComponent(termoPesquisaTrimmed)}`
+        : '/veiculos'
 
-        const response = await fetch(`${API_BASE_URL}${endpoint}`);
-        const data = await response.json();
-        setVeiculos(data);
+      const response = await fetch(`${API_BASE_URL}${endpoint}`)
+      const data = await response.json()
+      setVeiculos(data)
     } catch (error) {
-        console.error('Erro ao buscar veículos:', error);
+      console.error('Erro ao buscar veículos:', error)
     }
-  };
+  }
 
   const handleClose = () => {
-    setTermoPesquisa(''); 
-    setVeiculos([]); 
-    setVeiculoSelecionado(null); 
-    onHide(); 
-  };
+    setTermoPesquisa('')
+    setVeiculos([])
+    setVeiculoSelecionado(null)
+    onHide()
+  }
 
   const capitalizeFirstLetter = (string) => {
-    if (!string) return '';
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-  };
+    if (!string) return ''
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+  }
 
-  const [ordenacao, setOrdenacao] = useState({ coluna: 'placa', direcao: 'asc' });
+  const [ordenacao, setOrdenacao] = useState({
+    coluna: 'placa',
+    direcao: 'asc',
+  })
 
   const ordenarVeiculos = (coluna) => {
-    const direcao = ordenacao.coluna === coluna && ordenacao.direcao === 'asc' ? 'desc' : 'asc';
-    setOrdenacao({ coluna, direcao });
-};
+    const direcao =
+      ordenacao.coluna === coluna && ordenacao.direcao === 'asc'
+        ? 'desc'
+        : 'asc'
+    setOrdenacao({ coluna, direcao })
+  }
 
   const renderSortIcon = (coluna) => {
     if (ordenacao.coluna === coluna) {
-        return ordenacao.direcao === 'asc' ? ' ↑' : ' ↓';
+      return ordenacao.direcao === 'asc' ? ' ↑' : ' ↓'
     }
-    return ' ↕'; 
-  };
+    return ' ↕'
+  }
 
   const veiculosOrdenados = [...veiculos].sort((a, b) => {
-    if (a[ordenacao.coluna] < b[ordenacao.coluna]) return ordenacao.direcao === 'asc' ? -1 : 1;
-    if (a[ordenacao.coluna] > b[ordenacao.coluna]) return ordenacao.direcao === 'asc' ? 1 : -1;
-    return 0;
-  });
+    if (a[ordenacao.coluna] < b[ordenacao.coluna])
+      return ordenacao.direcao === 'asc' ? -1 : 1
+    if (a[ordenacao.coluna] > b[ordenacao.coluna])
+      return ordenacao.direcao === 'asc' ? 1 : -1
+    return 0
+  })
 
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -82,18 +90,35 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
         <Table striped bordered hover className="mt-3">
           <thead>
             <tr>
-              <th onClick={() => ordenarVeiculos('placa')}>Placa{renderSortIcon('placa')}</th>
-              <th onClick={() => ordenarVeiculos('marca')}>Marca{renderSortIcon('marca')}</th>
-              <th onClick={() => ordenarVeiculos('modelo')}>Modelo{renderSortIcon('modelo')}</th>
-              <th onClick={() => ordenarVeiculos('ano')}>Ano{renderSortIcon('ano')}</th>
-              <th onClick={() => ordenarVeiculos('cor')}>Cor{renderSortIcon('cor')}</th>
-              <th onClick={() => ordenarVeiculos('km_atual')}>Km Atual{renderSortIcon('km_atual')}</th>
-              <th onClick={() => ordenarVeiculos('tipo')}>Tipo{renderSortIcon('tipo')}</th>
+              <th onClick={() => ordenarVeiculos('placa')}>
+                Placa{renderSortIcon('placa')}
+              </th>
+              <th onClick={() => ordenarVeiculos('marca')}>
+                Marca{renderSortIcon('marca')}
+              </th>
+              <th onClick={() => ordenarVeiculos('modelo')}>
+                Modelo{renderSortIcon('modelo')}
+              </th>
+              <th onClick={() => ordenarVeiculos('ano')}>
+                Ano{renderSortIcon('ano')}
+              </th>
+              <th onClick={() => ordenarVeiculos('cor')}>
+                Cor{renderSortIcon('cor')}
+              </th>
+              <th onClick={() => ordenarVeiculos('km_atual')}>
+                Km Atual{renderSortIcon('km_atual')}
+              </th>
+              <th onClick={() => ordenarVeiculos('tipo')}>
+                Tipo{renderSortIcon('tipo')}
+              </th>
             </tr>
           </thead>
           <tbody>
             {veiculosOrdenados.map((veiculo) => (
-              <tr key={veiculo.id} onClick={() => handleSelecionarVeiculo(veiculo)}>
+              <tr
+                key={veiculo.id}
+                onClick={() => handleSelecionarVeiculo(veiculo)}
+              >
                 <td>{veiculo.placa}</td>
                 <td>{veiculo.marca}</td>
                 <td>{veiculo.modelo}</td>
@@ -107,8 +132,7 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
         </Table>
       </Modal.Body>
     </Modal>
+  )
+}
 
-  );
-};
-
-export default PesquisaVeiculosModal;
+export default PesquisaVeiculosModal

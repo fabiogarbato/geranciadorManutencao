@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { FaSave } from 'react-icons/fa';
+import React from 'react'
+import { Button } from 'react-bootstrap'
+import { FaSave } from 'react-icons/fa'
 
 const SaveButton = ({ onSave, isSaving = false, isDisabled = false }) => {
   return (
@@ -12,7 +12,7 @@ const SaveButton = ({ onSave, isSaving = false, isDisabled = false }) => {
     >
       <FaSave />
     </Button>
-  );
-};
+  )
+}
 
-export default SaveButton;
+export default SaveButton
