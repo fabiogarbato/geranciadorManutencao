@@ -3,6 +3,8 @@ import { Modal, Form, Button, Table } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
 import { API_BASE_URL } from '../config'
 import '../CadastroVeiculo.css'
+import axios from 'axios'
+import { FaTrash } from 'react-icons/fa'
 
 const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
   const [termoPesquisa, setTermoPesquisa] = useState('')
@@ -69,6 +71,26 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
     return 0
   })
 
+  const handleExcluirVeiculo = async (event, id) => {
+    event.stopPropagation();
+  
+    if (window.confirm('Tem certeza que deseja excluir este veículo?')) {
+      try {
+        const response = await axios.delete(`${API_BASE_URL}/veiculos/${id}`);
+  
+        if (response.status === 200) {
+          const veiculosAtualizados = veiculos.filter(veiculo => veiculo.id !== id);
+          setVeiculos(veiculosAtualizados);
+  
+          alert('Veículo excluído com sucesso.');
+        }
+      } catch (error) {
+        console.error('Erro ao excluir veículo:', error);
+        alert('Erro ao excluir veículo.');
+      }
+    }
+  };  
+
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
       <Modal.Header closeButton>
@@ -111,6 +133,7 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
               <th onClick={() => ordenarVeiculos('tipo')}>
                 Tipo{renderSortIcon('tipo')}
               </th>
+              <th>Ações</th> 
             </tr>
           </thead>
           <tbody>
@@ -126,6 +149,13 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
                 <td>{veiculo.cor}</td>
                 <td>{veiculo.km_atual}</td>
                 <td>{capitalizeFirstLetter(veiculo.tipo)}</td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button variant="danger" onClick={(e) => handleExcluirVeiculo(e, veiculo.id)}>
+                      <FaTrash />
+                    </Button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
