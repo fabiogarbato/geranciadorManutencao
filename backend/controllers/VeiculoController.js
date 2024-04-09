@@ -54,6 +54,23 @@ class VeiculoController {
     }
   }
 
+  async verificarPlaca(req, res) {
+    try {
+      const placa = req.params.placa;
+      const veiculo = await Veiculo.findOne({
+        where: { placa: placa },
+      });
+      if (veiculo) {
+        return res.status(200).send({ existe: true });
+      } else {
+        return res.status(200).send({ existe: false });
+      }
+    } catch (error) {
+      if (DEBUG) console.error(`Erro ao verificar a placa "${placa}":`, error);
+      return res.status(400).send(error);
+    }
+  }  
+
   async update(req, res) {
     try {
       const veiculo = await Veiculo.findByPk(req.params.id)

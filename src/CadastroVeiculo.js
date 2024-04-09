@@ -20,6 +20,7 @@ import { API_BASE_URL } from './config'
 import { showMessageSuccess, showMessageWarn } from './utils.js'
 import useButtonState from './Components/useButtonState.js'
 import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal'
+import axios from 'axios'
 
 const CadastroVeiculo = () => {
   const [showModal, setShowModal] = useState(false)
@@ -145,19 +146,34 @@ const CadastroVeiculo = () => {
     }
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    if (isFormValid()) {
-      if (isUpdating) {
-        atualizarVeiculo()
-      } else {
-        adicionarVeiculo()
-      }
-      handleClear()
-    } else {
-      showMessageWarn('Por favor, preencha todos os campos do formulário.')
+  const verificarPlacaExistente = async (placa) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/veiculos/placa/${placa}`);
+      return response.data.existe;
+    } catch (error) {
+      console.error('Erro ao verificar a placa:', error);
+      return false; 
     }
-  }
+  };
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (isFormValid()) {
+      const placaExiste = await verificarPlacaExistente(placa);
+      if (placaExiste) {
+        showMessageWarn('Placa já cadastrada no sistema!');
+        return;
+      }
+      if (isUpdating) {
+        atualizarVeiculo();
+      } else {
+        adicionarVeiculo();
+      }
+      handleClear();
+    } else {
+      showMessageWarn('Por favor, preencha todos os campos do formulário.');
+    }
+  };  
 
   const handleClear = () => {
     setIsUpdating(false)
@@ -303,6 +319,7 @@ const CadastroVeiculo = () => {
                           placeholder="Insira a quilometragem atual"
                           value={km_atual}
                           onChange={handleChange}
+                          min="0"
                         />
                       </Form.Group>
                     </Col>
