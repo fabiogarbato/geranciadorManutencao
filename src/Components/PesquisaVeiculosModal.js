@@ -5,11 +5,15 @@ import { API_BASE_URL } from '../config'
 import '../CadastroVeiculo.css'
 import axios from 'axios'
 import { FaTrash } from 'react-icons/fa'
+import ConfirmacaoExclusaoModal from './ConfirmacaoExclusaoModal'
+import { showMessageSuccess } from '../utils'
 
 const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
   const [termoPesquisa, setTermoPesquisa] = useState('')
   const [veiculos, setVeiculos] = useState([])
   const [veiculoSelecionado, setVeiculoSelecionado] = useState(null)
+  const [showConfirmacaoModal, setShowConfirmacaoModal] = useState(false);
+  const [idVeiculoParaExcluir, setIdVeiculoParaExcluir] = useState(null);
 
   const handleSelecionarVeiculo = (veiculo) => {
     onVeiculoSelecionado(veiculo)
@@ -71,25 +75,27 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
     return 0
   })
 
-  const handleExcluirVeiculo = async (event, id) => {
-    event.stopPropagation();
+  const handleExcluirVeiculo = async (id) => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/veiculos/${id}`);
   
-    if (window.confirm('Tem certeza que deseja excluir este veículo?')) {
-      try {
-        const response = await axios.delete(`${API_BASE_URL}/veiculos/${id}`);
+      if (response.status === 200) {
+        const veiculosAtualizados = veiculos.filter(veiculo => veiculo.id !== id);
+        setVeiculos(veiculosAtualizados);
   
-        if (response.status === 200) {
-          const veiculosAtualizados = veiculos.filter(veiculo => veiculo.id !== id);
-          setVeiculos(veiculosAtualizados);
-  
-          alert('Veículo excluído com sucesso.');
-        }
-      } catch (error) {
-        console.error('Erro ao excluir veículo:', error);
-        alert('Erro ao excluir veículo.');
+        showMessageSuccess('Veículo excluído com sucesso.');
       }
+    } catch (error) {
+      console.error('Erro ao excluir veículo:', error);
+      alert('Erro ao excluir veículo.');
     }
-  };  
+  };
+  
+  const confirmarExclusao = (event, id) => {
+    event.stopPropagation();
+    setIdVeiculoParaExcluir(id);
+    setShowConfirmacaoModal(true);
+  };
 
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -151,7 +157,7 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
                 <td>{capitalizeFirstLetter(veiculo.tipo)}</td>
                 <td>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button variant="danger" onClick={(e) => handleExcluirVeiculo(e, veiculo.id)}>
+                    <Button variant="danger" onClick={(e) => confirmarExclusao(e, veiculo.id)}>
                       <FaTrash />
                     </Button>
                   </div>
@@ -160,6 +166,14 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
             ))}
           </tbody>
         </Table>
+        <ConfirmacaoExclusaoModal
+          show={showConfirmacaoModal}
+          onClose={() => setShowConfirmacaoModal(false)}
+          onConfirm={() => {
+            handleExcluirVeiculo(idVeiculoParaExcluir);
+            setShowConfirmacaoModal(false);
+          }}
+        />
       </Modal.Body>
     </Modal>
   )
