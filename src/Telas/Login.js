@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Footer from './Components/Footer.js'
-import NavBar from './Components/Navbar.js'
+import Footer from '../Components/Footer.js'
+import NavBar from '../Components/Navbar.js'
 import { useNavigate } from 'react-router-dom'
-import { API_BASE_URL } from './config'
-import { showMessageSuccess, showMessageError } from './utils.js'
-import { useAuth } from './AuthProvider'
+import { API_BASE_URL } from '../config.js'
+import { showMessageSuccess, showMessageError } from '../utils.js'
+import { useAuth } from '../AuthProvider.js'
 
 const Login = () => {
   const [usuario, setUsuario] = useState('')

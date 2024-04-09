@@ -1,6 +1,6 @@
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap'
-import NavBar from './Components/Navbar.js'
-import Footer from './Components/Footer.js'
+import NavBar from '../Components/Navbar.js'
+import Footer from '../Components/Footer.js'
 import './CadastroVeiculo.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { useEffect, useState } from 'react'
@@ -13,13 +13,13 @@ import {
   FaTachometerAlt,
   FaCarSide,
 } from 'react-icons/fa'
-import BackButton from './Components/BackButton'
-import SaveButton from './Components/SaveButton'
-import ClearButton from './Components/ClearButton'
-import { API_BASE_URL } from './config'
-import { showMessageSuccess, showMessageWarn } from './utils.js'
-import useButtonState from './Components/useButtonState.js'
-import PesquisaVeiculosModal from './Components/PesquisaVeiculosModal'
+import BackButton from '../Components/BackButton.js'
+import SaveButton from '../Components/SaveButton.js'
+import ClearButton from '../Components/ClearButton.js'
+import { API_BASE_URL } from '../config.js'
+import { showMessageSuccess, showMessageWarn } from '../utils.js'
+import useButtonState from '../Components/useButtonState.js'
+import PesquisaVeiculosModal from '../Components/PesquisaVeiculosModal.js'
 import axios from 'axios'
 
 const CadastroVeiculo = () => {

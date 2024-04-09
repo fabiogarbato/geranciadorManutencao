@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Home'
-import Login from './Login'
-import CadastroVeiculo from './CadastroVeiculo'
+import Login from './Telas/Login'
+import CadastroVeiculo from './Telas/CadastroVeiculo'
 import PrivateRoute from './PrivateRoute'
 import { AuthProvider } from './AuthProvider'
 

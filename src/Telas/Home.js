@@ -3,8 +3,8 @@ import { Container, Row, Col, Offcanvas, Nav } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link, useNavigate } from 'react-router-dom'
-import Footer from './Components/Footer'
-import NavBar from './Components/Navbar'
+import Footer from '../Components/Footer'
+import NavBar from '../Components/Navbar'
 import {
   FaSignOutAlt,
   FaBars,
@@ -18,7 +18,7 @@ import {
   FaCar,
   FaCog,
 } from 'react-icons/fa'
-import { useAuth } from './AuthProvider'
+import { useAuth } from '../AuthProvider'
 
 const App = () => {
   const navigate = useNavigate()
