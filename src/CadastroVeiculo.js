@@ -68,10 +68,12 @@ const CadastroVeiculo = () => {
   }
 
   const handleAnoChange = (event) => {
-    const valor = event.target.value
-    const anoFormatado = valor.slice(0, 4)
-    setAno(anoFormatado)
-  }
+    const valor = event.target.value;
+    const apenasNumeros = valor.replace(/\D/g, ''); 
+    if (apenasNumeros.length <= 4) {
+      setAno(apenasNumeros); 
+    }
+  };  
 
   const handleVeiculoChange = (event) => {
     setTipo(event.target.value)
@@ -158,6 +160,7 @@ const CadastroVeiculo = () => {
   }
 
   const handleClear = () => {
+    setIsUpdating(false)
     setPlaca('')
     setMarca('')
     setModelo('')
@@ -267,13 +270,12 @@ const CadastroVeiculo = () => {
                           <FaCalendarAlt /> Ano
                         </Form.Label>
                         <Form.Control
-                          type="text"
-                          pattern="\d*"
-                          placeholder="Insira o ano do veículo"
-                          value={ano}
-                          onChange={handleAnoChange}
-                          maxLength="4"
-                        />
+                            type="text"
+                            placeholder="Insira o ano do veículo"
+                            value={ano}
+                            onChange={handleAnoChange}
+                            maxLength="4"
+                         />
                       </Form.Group>
                     </Col>
                   </Row>
