@@ -293,16 +293,26 @@ const HistoricoManutencao = () => {
                   onChange={handleChange}
                 />
               </Form.Group>
-              <div className="d-flex justify-content-between">
-                <Button onClick={() => setShowModal(true)}>
-                  Pesquisar Veículos
-                </Button>
-                <PesquisaManutencoesModal
-                  show={showModal}
-                  onHide={() => setShowModal(false)}
-                  // onVeiculoSelecionado={handleVeiculoSelecionado}
-                />
-              </div>
+                <div className="d-flex justify-content-between">
+                    <Button onClick={() => setShowModal(true)}>
+                    Consultar Manutenções
+                    </Button>
+                    <PesquisaManutencoesModal
+                    show={showModal}
+                    onHide={() => setShowModal(false)}
+                    // onVeiculoSelecionado={handleVeiculoSelecionado}
+                    />
+                    <div>
+                        <SaveButton
+                            onSave={handleSubmit}
+                            isDisabled={!isSaveButtonEnabled}
+                        />
+                        <ClearButton
+                            onClear={handleClear}
+                            isDisabled={!isClearButtonEnabled}
+                        />
+                    </div>
+                </div>
             </Form>
           </Card.Body>
         </Card>
