@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Home'
 import Login from './Telas/Login'
 import CadastroVeiculo from './Telas/CadastroVeiculo'
+import HistoricoManutencao from './Telas/HistoricoManutencao'
 import PrivateRoute from './PrivateRoute'
 import { AuthProvider } from './AuthProvider'
 
@@ -24,6 +25,14 @@ function RoutesApp() {
             element={
               <PrivateRoute>
                 <CadastroVeiculo />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/Historico"
+            element={
+              <PrivateRoute>
+                <HistoricoManutencao />
               </PrivateRoute>
             }
           />

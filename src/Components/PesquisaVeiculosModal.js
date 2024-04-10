@@ -11,7 +11,7 @@ import { showMessageSuccess } from '../utils'
 const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
   const [termoPesquisa, setTermoPesquisa] = useState('')
   const [veiculos, setVeiculos] = useState([])
-  const [veiculoSelecionado, setVeiculoSelecionado] = useState(null)
+  const [setVeiculoSelecionado] = useState(null)
   const [showConfirmacaoModal, setShowConfirmacaoModal] = useState(false);
   const [idVeiculoParaExcluir, setIdVeiculoParaExcluir] = useState(null);
 
