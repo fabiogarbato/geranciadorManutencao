@@ -203,105 +203,105 @@ const HistoricoManutencao = () => {
             <Form>
               <Row>
                 <Col md={3}>
-                  <Form.Group className="mb-3" controlId="formPlaca">
+                    <Form.Group className="mb-3" controlId="formPlaca">
+                        <Form.Label>
+                        <FaTag /> Placa
+                        </Form.Label>
+                        <Form.Control
+                        type="text"
+                        placeholder="Insira a placa do veículo"
+                        value={placa}
+                        onChange={handleChange}
+                        onKeyPress={(e) => e.key === 'Enter' && pesquisarPlaca()}
+                        maxLength="8"
+                        disabled={isPlacaDisabled}
+                        />
+                    </Form.Group>
+                    </Col>
+                    <Col md={3}>
+                    <Form.Group className="mb-3" controlId="formMarca">
+                        <Form.Label>
+                        <FaTrademark /> Marca
+                        </Form.Label>
+                        <Form.Control
+                        type="text"
+                        placeholder="Marca"
+                        disabled="true"
+                        value={marca}
+                        onChange={handleChange}
+                        />
+                    </Form.Group>
+                    </Col>
+                    <Col md={3}>
+                    <Form.Group className="mb-3" controlId="formModelo">
+                        <Form.Label>
+                        <FaCarAlt /> Modelo
+                        </Form.Label>
+                        <Form.Control
+                        type="text"
+                        placeholder="Modelo"
+                        disabled="true"
+                        value={modelo}
+                        onChange={handleChange}
+                        />
+                    </Form.Group>
+                    </Col>
+                    <Col md={3}>
+                    <Form.Group className="mb-3" controlId="formAno">
+                        <Form.Label>
+                        <FaCalendarAlt /> Ano
+                        </Form.Label>
+                        <Form.Control
+                        type="text"
+                        placeholder="Insira o ano do veículo"
+                        disabled="true"
+                        value={ano}
+                        onChange={handleAnoChange}
+                        />
+                    </Form.Group>
+                    </Col>
+                </Row>
+                <Form.Group className="mb-3" controlId="formDataManutencao">
                     <Form.Label>
-                      <FaTag /> Placa
+                    <FaCalendar /> Data da Manutenção
                     </Form.Label>
                     <Form.Control
-                      type="text"
-                      placeholder="Insira a placa do veículo"
-                      value={placa}
-                      onChange={handleChange}
-                      onKeyPress={(e) => e.key === 'Enter' && pesquisarPlaca()}
-                      maxLength="8"
-                      disabled={isPlacaDisabled}
+                    type="date"
+                    value={data_manutencao}
+                    onChange={handleChange}
                     />
-                  </Form.Group>
-                </Col>
-                <Col md={3}>
-                  <Form.Group className="mb-3" controlId="formMarca">
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formDetalhes">
                     <Form.Label>
-                      <FaTrademark /> Marca
+                    <FaRegEdit /> Descrição
                     </Form.Label>
                     <Form.Control
-                      type="text"
-                      placeholder="Marca"
-                      disabled="true"
-                      value={marca}
-                      onChange={handleChange}
+                    type="text"
+                    placeholder="Descreva a manutenção realizada"
+                    value={detalhes}
+                    onChange={handleChange}
                     />
-                  </Form.Group>
-                </Col>
-                <Col md={3}>
-                  <Form.Group className="mb-3" controlId="formModelo">
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formCusto">
                     <Form.Label>
-                      <FaCarAlt /> Modelo
+                    <FaMoneyBillWave /> Custo (R$)
                     </Form.Label>
                     <Form.Control
-                      type="text"
-                      placeholder="Modelo"
-                      disabled="true"
-                      value={modelo}
-                      onChange={handleChange}
+                    type="number"
+                    placeholder="Informe o custo da manutenção"
+                    value={custo}
+                    onChange={handleChange}
                     />
-                  </Form.Group>
-                </Col>
-                <Col md={3}>
-                  <Form.Group className="mb-3" controlId="formAno">
-                    <Form.Label>
-                      <FaCalendarAlt /> Ano
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Insira o ano do veículo"
-                      disabled="true"
-                      value={ano}
-                      onChange={handleAnoChange}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Form.Group className="mb-3" controlId="formDataManutencao">
-                <Form.Label>
-                  <FaCalendar /> Data da Manutenção
-                </Form.Label>
-                <Form.Control
-                  type="date"
-                  value={data_manutencao}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formDetalhes">
-                <Form.Label>
-                  <FaRegEdit /> Descrição
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Descreva a manutenção realizada"
-                  value={detalhes}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formCusto">
-                <Form.Label>
-                  <FaMoneyBillWave /> Custo (R$)
-                </Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="Informe o custo da manutenção"
-                  value={custo}
-                  onChange={handleChange}
-                />
-              </Form.Group>
+                </Form.Group>
                 <div className="d-flex justify-content-between">
                     <Button onClick={() => setShowModal(true)}>
-                    Consultar Manutenções
+                        Consultar Manutenções
                     </Button>
                     <PesquisaManutencoesModal
-                    show={showModal}
-                    onHide={() => setShowModal(false)}
-                    // onVeiculoSelecionado={handleVeiculoSelecionado}
-                    />
+                        show={showModal}
+                        onHide={() => setShowModal(false)}
+                        // onVeiculoSelecionado={handleVeiculoSelecionado}
+                        />
                     <div>
                         <SaveButton
                             onSave={handleSubmit}
@@ -318,13 +318,13 @@ const HistoricoManutencao = () => {
         </Card>
       </Container>
       <Container className="mt-4 text-center">
-        <BackButton
-          backPath="/Home"
-          shouldConfirm={isSaveButtonEnabled || isClearButtonEnabled}
-        />
+            <BackButton
+                backPath="/Home"
+                shouldConfirm={isSaveButtonEnabled || isClearButtonEnabled}
+            />
       </Container>
       <Container>
-        <Footer />
+         <Footer />
       </Container>
     </Container>
   )
