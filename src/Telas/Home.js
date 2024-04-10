@@ -1,4 +1,4 @@
-import './index.css'
+import '../index.css'
 import { Container, Row, Col, Offcanvas, Nav } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
