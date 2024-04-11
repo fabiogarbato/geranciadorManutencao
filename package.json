@@ -45,7 +45,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "node-windows": "^1.0.0-beta.8",
-    "format": "prettier --write .",
     "prepare": "husky install"
   },
   "eslintConfig": {
@@ -67,22 +66,8 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.2.1",
-    "@commitlint/config-conventional": "^19.1.0",
     "commitlint": "^19.2.1",
     "concurrently": "^8.2.2",
-    "husky": "^8.0.0",
-    "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,html,css,json}": [
-      "yarn prettier --write"
-    ]
+    "lint-staged": "^15.2.2"
   }
 }
