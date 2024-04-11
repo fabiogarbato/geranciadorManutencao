@@ -1,4 +1,5 @@
 const Veiculo = require('../models/Veiculo')
+const Manutencao = require('../models/HistoricoManutencao');
 const { Op } = require('sequelize')
 
 const DEBUG = false
@@ -24,6 +25,19 @@ class VeiculoController {
       if (DEBUG) console.error('Erro ao buscar veículos:', error)
       return res.status(400).send(error)
     }
+  }
+
+  async checkDependencies(req, res) {
+    const veiculoId = req.params.id;
+    const manutencoes = await Manutencao.findAll({
+      where: { veiculo_id: veiculoId }
+    });
+  
+    if (manutencoes.length > 0) {
+      return res.status(400).json({ message: 'Veículo possui manutenções associadas e não pode ser excluído.' });
+    }
+  
+    return res.status(200).json({ message: 'Veículo pode ser excluído.' });
   }
 
   async search(req, res) {

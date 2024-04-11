@@ -6,7 +6,7 @@ import '../Telas/CadastroVeiculo.css'
 import axios from 'axios'
 import { FaTrash } from 'react-icons/fa'
 import ConfirmacaoExclusaoModal from './ConfirmacaoExclusaoModal'
-import { showMessageSuccess } from '../utils'
+import { showMessageSuccess, showMessageError, showMessageWarn } from '../utils'
 
 const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
   const [termoPesquisa, setTermoPesquisa] = useState('')
@@ -75,21 +75,39 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
     return 0
   })
 
-  const handleExcluirVeiculo = async (id) => {
+  const verificarDependenciasVeiculo = async (id) => {
     try {
-      const response = await axios.delete(`${API_BASE_URL}/veiculos/${id}`);
-  
-      if (response.status === 200) {
-        const veiculosAtualizados = veiculos.filter(veiculo => veiculo.id !== id);
-        setVeiculos(veiculosAtualizados);
-  
-        showMessageSuccess('Veículo excluído com sucesso.');
-      }
+      const response = await axios.get(`${API_BASE_URL}/veiculos/${id}/check-dependencies`);
+      return response.data;
     } catch (error) {
-      console.error('Erro ao excluir veículo:', error);
-      alert('Erro ao excluir veículo.');
+      if (error.response && error.response.status === 400) {
+        showMessageWarn(error.response.data.message);
+      } else {
+        showMessageError('Erro ao verificar dependências do veículo.');
+      }
+      return null;
     }
   };
+
+  const handleExcluirVeiculo = async (id) => {
+    const dependencias = await verificarDependenciasVeiculo(id);
+    if (dependencias) {
+      if (dependencias && dependencias.message === 'Veículo pode ser excluído.') {
+        try {
+          const response = await axios.delete(`${API_BASE_URL}/veiculos/${id}`);
+          if (response.status === 200) {
+            const veiculosAtualizados = veiculos.filter(veiculo => veiculo.id !== id);
+            setVeiculos(veiculosAtualizados);
+            showMessageSuccess('Veículo excluído com sucesso.');
+          }
+        } catch (error) {
+          showMessageError('Erro ao excluir veículo.');
+        }
+      } else {
+        showMessageWarn(dependencias.message);
+      }
+    } 
+  };  
   
   const confirmarExclusao = (event, id) => {
     event.stopPropagation();
