@@ -318,13 +318,13 @@ const HistoricoManutencao = () => {
         </Card>
       </Container>
       <Container className="mt-4 text-center">
-        <BackButton
-          backPath="/Home"
-          shouldConfirm={isSaveButtonEnabled || isClearButtonEnabled}
-        />
+            <BackButton
+                backPath="/Home"
+                shouldConfirm={isSaveButtonEnabled || isClearButtonEnabled}
+            />
       </Container>
       <Container>
-        <Footer />
+         <Footer />
       </Container>
     </Container>
   )
