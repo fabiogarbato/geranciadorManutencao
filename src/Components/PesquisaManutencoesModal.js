@@ -35,8 +35,8 @@ const PesquisaManutencoesModal = ({ show, onHide, veiculoId }) => {
   const [data_manutencao, setData_manutencao] = useState('')
   const [detalhes, setDetalhes] = useState('')
   const [custo, setCusto] = useState('')
-
-  const { isSaveButtonEnabled, isClearButtonEnabled } = useButtonState(placa)
+  const {isClearButtonEnabled } = useButtonState(placa)
+  const [isPlacaDisabled, setIsPlacaDisabled] = useState(false)
 
   const formatarPlaca = (valor) => {
     const valorSemFormatacao = valor.replace(/[^A-Z0-9]/gi, '').toUpperCase()
@@ -71,6 +71,7 @@ const PesquisaManutencoesModal = ({ show, onHide, veiculoId }) => {
         setMarca(veiculo.marca)
         setModelo(veiculo.modelo)
         setAno(veiculo.ano)
+        setIsPlacaDisabled(true)
 
         const manutencoesResponse = await fetch(
           `${API_BASE_URL}/historicoManutencao/veiculo/${veiculo.id}`,
@@ -118,6 +119,9 @@ const PesquisaManutencoesModal = ({ show, onHide, veiculoId }) => {
     switch (id) {
       case 'formPlaca':
         setPlaca(formatarPlaca(value))
+        if (value === '') {
+          setIsPlacaDisabled(false)
+        }
         break
       case 'formMarca':
         setMarca(formattedValue)
@@ -140,6 +144,7 @@ const PesquisaManutencoesModal = ({ show, onHide, veiculoId }) => {
   }
 
   const handleClear = () => {
+    setIsPlacaDisabled(false)
     setPlaca('')
     setMarca('')
     setModelo('')
@@ -171,6 +176,7 @@ const PesquisaManutencoesModal = ({ show, onHide, veiculoId }) => {
                     onChange={handleChange}
                     onKeyPress={(e) => e.key === 'Enter' && pesquisarPlaca()}
                     maxLength="8"
+                    disabled={isPlacaDisabled}
                   />
                 </Form.Group>
               </Col>
