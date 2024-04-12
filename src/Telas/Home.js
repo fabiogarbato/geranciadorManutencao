@@ -50,10 +50,10 @@ const App = () => {
           <Nav defaultActiveKey="/home" className="flex-column pt-2">
             <Nav.Link
               as={Link}
-              to="/Agendamento"
+              to="/CadastroVeiculo"
               className="nav-link text-primary custom-logout-link"
             >
-              <FaCalendarAlt /> Agendamento de Manutenção
+              <FaCar /> Cadastrar Veículo
             </Nav.Link>
             <Nav.Link
               as={Link}
@@ -61,6 +61,13 @@ const App = () => {
               className="nav-link text-primary custom-logout-link"
             >
               <FaHistory /> Histórico de Manutenção
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/Agendamento"
+              className="nav-link text-primary custom-logout-link"
+            >
+              <FaCalendarAlt /> Agendamento de Manutenção
             </Nav.Link>
             <Nav.Link
               as={Link}
@@ -103,13 +110,6 @@ const App = () => {
               className="nav-link text-primary custom-logout-link"
             >
               <FaCog /> Configurações
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/CadastroVeiculo"
-              className="nav-link text-primary custom-logout-link"
-            >
-              <FaCar /> Cadastrar Veículo
             </Nav.Link>
             <Nav.Link
               as={Link}

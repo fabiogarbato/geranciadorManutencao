@@ -235,10 +235,10 @@ const CadastroVeiculo = () => {
         <Row className="justify-content-md-center">
           <Col md={8}>
             <Card>
+              <Card.Header>
+                <h2>Cadastro de Veiculos</h2>
+              </Card.Header>
               <Card.Body>
-                <Card.Title className="text-center mb-4">
-                  Cadastro de Veículo
-                </Card.Title>
                 <Form>
                   <Row>
                     <Col md={6}>

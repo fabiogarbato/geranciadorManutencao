@@ -24,7 +24,7 @@ import { showMessageWarn } from '../utils'
 import useButtonState from './useButtonState'
 
 const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
-  const [termoPesquisa, setTermoPesquisa] = useState('')
+  const [, setTermoPesquisa] = useState('')
   const [manutencoes, setManutencoes] = useState([])
   const [showConfirmacaoModal, setShowConfirmacaoModal] = useState(false)
   const [idManutencaoParaExcluir, setIdManutencaoParaExcluir] = useState(null)
@@ -32,9 +32,9 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
   const [marca, setMarca] = useState('')
   const [modelo, setModelo] = useState('')
   const [ano, setAno] = useState('')
-  const [data_manutencao, setData_manutencao] = useState('')
-  const [detalhes, setDetalhes] = useState('')
-  const [custo, setCusto] = useState('')
+  const [, setData_manutencao] = useState('')
+  const [, setDetalhes] = useState('')
+  const [, setCusto] = useState('')
   const {isClearButtonEnabled } = useButtonState(placa)
   const [isPlacaDisabled, setIsPlacaDisabled] = useState(false)
   const [veiculo, setVeiculo] = useState(null);
