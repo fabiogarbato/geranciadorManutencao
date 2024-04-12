@@ -63,6 +63,11 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
       return
     }
 
+    if (placa.trim().length !== 8) { 
+      showMessageWarn('Digite a placa completa!');
+      return;
+    }
+
     try {
       const endpoint = `/veiculos/search?search=${encodeURIComponent(placa)}`
       const response = await fetch(`${API_BASE_URL}${endpoint}`)
