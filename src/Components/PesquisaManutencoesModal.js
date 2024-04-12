@@ -23,7 +23,7 @@ import ClearButton from './ClearButton'
 import { showMessageWarn } from '../utils'
 import useButtonState from './useButtonState'
 
-const PesquisaManutencoesModal = ({ show, onHide, veiculoId }) => {
+const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
   const [termoPesquisa, setTermoPesquisa] = useState('')
   const [manutencoes, setManutencoes] = useState([])
   const [showConfirmacaoModal, setShowConfirmacaoModal] = useState(false)
@@ -37,6 +37,8 @@ const PesquisaManutencoesModal = ({ show, onHide, veiculoId }) => {
   const [custo, setCusto] = useState('')
   const {isClearButtonEnabled } = useButtonState(placa)
   const [isPlacaDisabled, setIsPlacaDisabled] = useState(false)
+  const [veiculo, setVeiculo] = useState(null);
+
 
   const formatarPlaca = (valor) => {
     const valorSemFormatacao = valor.replace(/[^A-Z0-9]/gi, '').toUpperCase()
@@ -67,7 +69,8 @@ const PesquisaManutencoesModal = ({ show, onHide, veiculoId }) => {
       const data = await response.json()
 
       if (data.length > 0) {
-        const veiculo = data[0]
+        const veiculoCarregado = data[0];
+        setVeiculo(veiculoCarregado);
         setMarca(veiculo.marca)
         setModelo(veiculo.modelo)
         setAno(veiculo.ano)
@@ -236,7 +239,10 @@ const PesquisaManutencoesModal = ({ show, onHide, veiculoId }) => {
           </thead>
           <tbody>
             {manutencoes.map((manutencao) => (
-              <tr key={manutencao.id}>
+              <tr 
+                key={manutencao.id} onClick={() => veiculo ? onManutencaoSelect(manutencao, veiculo) : console.error("Veículo não está disponível")}
+                style={{ cursor: 'pointer' }}
+              >
                 <td>
                   {new Date(manutencao.data_manutencao).toLocaleDateString()}
                 </td>

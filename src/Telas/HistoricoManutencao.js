@@ -19,6 +19,7 @@ import ClearButton from '../Components/ClearButton.js'
 import { API_BASE_URL } from '../config.js'
 import {
   showMessageError,
+  showMessageInfo,
   showMessageSuccess,
   showMessageWarn,
 } from '../utils.js'
@@ -50,6 +51,24 @@ const HistoricoManutencao = () => {
   const [isUpdating, setIsUpdating] = useState(false)
   const [isPlacaDisabled, setIsPlacaDisabled] = useState(false)
 
+  const handleManutencaoSelect = (manutencao, veiculo) => {  
+    if (!veiculo) {
+      showMessageError("Nenhum veículo disponível!");
+      return;  
+    }
+
+    setPlaca(veiculo.placa)
+    setMarca(veiculo.marca);  
+    setModelo(veiculo.modelo);
+    setAno(veiculo.ano);
+    setData_manutencao(manutencao.data_manutencao.split("T")[0]); 
+    setDetalhes(manutencao.detalhes);
+    setCusto(manutencao.custo);
+    setIsPlacaDisabled(true)
+    setShowModal(false); 
+    showMessageInfo("Manutenção do veiculo: " + modelo + " selecionada");
+  };
+  
   const handleAnoChange = (event) => {
     const valor = event.target.value
     const apenasNumeros = valor.replace(/\D/g, '')
@@ -300,7 +319,7 @@ const HistoricoManutencao = () => {
                 <PesquisaManutencoesModal
                   show={showModal}
                   onHide={() => setShowModal(false)}
-                  // onVeiculoSelecionado={handleVeiculoSelecionado}
+                  onManutencaoSelect={handleManutencaoSelect}
                 />
                 <div>
                   <SaveButton
