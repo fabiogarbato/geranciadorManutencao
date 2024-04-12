@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Container,
   Row,
@@ -158,6 +158,21 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
     setManutencoes([])
   }
 
+  useEffect(() => {
+    if (show) {
+      handleClear();
+    }
+  }, [show]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); 
+    if (!placa.trim()) {
+      showMessageWarn('Preencha o campo placa!');
+      return;
+    }
+    pesquisarPlaca();  
+  };  
+
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
       <Modal.Header closeButton>
@@ -177,7 +192,12 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
                     placeholder="Insira a placa do veículo"
                     value={placa}
                     onChange={handleChange}
-                    onKeyPress={(e) => e.key === 'Enter' && pesquisarPlaca()}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();  
+                        handleSubmit(e);  
+                      }
+                    }}                    
                     maxLength="8"
                     disabled={isPlacaDisabled}
                   />

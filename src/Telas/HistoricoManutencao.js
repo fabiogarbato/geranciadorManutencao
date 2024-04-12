@@ -25,11 +25,11 @@ import {
 } from '../utils.js'
 import useButtonState from '../Components/useButtonState.js'
 import PesquisaManutencoesModal from '../Components/PesquisaManutencoesModal.js'
-import axios from 'axios'
 
 const HistoricoManutencao = () => {
   const [showModal, setShowModal] = useState(false)
   const [veiculoId, setVeiculoId] = useState(null)
+  const [manutencaoId, setManutencaoId] = useState(null)
   const [placa, setPlaca] = useState('')
   const [marca, setMarca] = useState('')
   const [modelo, setModelo] = useState('')
@@ -48,8 +48,10 @@ const HistoricoManutencao = () => {
     custo,
   )
 
-  const [isUpdating, setIsUpdating] = useState(false)
+  
   const [isPlacaDisabled, setIsPlacaDisabled] = useState(false)
+  
+  const [isUpdating, setIsUpdating] = useState(false)
 
   const handleManutencaoSelect = (manutencao, veiculo) => {  
     if (!veiculo) {
@@ -57,6 +59,7 @@ const HistoricoManutencao = () => {
       return;  
     }
 
+    setIsUpdating(true)
     setPlaca(veiculo.placa)
     setMarca(veiculo.marca);  
     setModelo(veiculo.modelo);
@@ -65,6 +68,7 @@ const HistoricoManutencao = () => {
     setDetalhes(manutencao.detalhes);
     setCusto(manutencao.custo);
     setIsPlacaDisabled(true)
+    setManutencaoId(manutencao.id)
     setShowModal(false); 
     showMessageInfo("Manutenção do veiculo: " + modelo + " selecionada");
   };
@@ -190,6 +194,38 @@ const HistoricoManutencao = () => {
     }
   }
 
+  async function atualizaHistoricoManutencao() {
+    const dadosManutencao = {
+      placa: placa,
+      marca: marca,
+      modelo: modelo,
+      ano: parseInt(ano, 10),
+      data_manutencao: data_manutencao.split("T")[0],
+      detalhes: detalhes,
+      custo: parseFloat(custo)
+    };
+  
+    try {
+      const response = await fetch(`${API_BASE_URL}/historicoManutencao/${manutencaoId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dadosManutencao)
+      });
+  
+      if (response.ok) {
+        const resultado = await response.json();
+        showMessageInfo(`Manutenção atualizada com sucesso para o veículo ${modelo}`);
+        return resultado;
+      } else {
+        throw new Error('Falha ao atualizar o histórico de manutenção');
+      }
+    } catch (error) {
+      showMessageError(error.message || 'Erro ao atualizar manutenção');
+    }
+  }
+
   const isFormComplete = () => {
     return (
       placa && marca && modelo && ano && data_manutencao && detalhes && custo
@@ -197,12 +233,17 @@ const HistoricoManutencao = () => {
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     if (isFormComplete()) {
-      await adicionarHistoricoManutencao()
-      handleClear()
+      if (isUpdating) {
+        await atualizaHistoricoManutencao();  
+      } else {
+        await adicionarHistoricoManutencao(); 
+      }
+      handleClear();
+      setIsUpdating(false); 
     } else {
-      showMessageWarn('Por favor, preencha todos os campos do formulário.')
+      showMessageWarn('Por favor, preencha todos os campos do formulário.');
     }
   }
 
