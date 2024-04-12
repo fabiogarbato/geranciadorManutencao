@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './Telas/Home'
-import Login from './Telas/Login'
-import CadastroVeiculo from './Telas/CadastroVeiculo'
-import HistoricoManutencao from './Telas/HistoricoManutencao'
+import Home from './View/Home'
+import Login from './View/Login'
+import CadastroVeiculo from './View/CadastroVeiculo'
+import HistoricoManutencao from './View/HistoricoManutencao'
 import PrivateRoute from './PrivateRoute'
 import { AuthProvider } from './AuthProvider'
 
