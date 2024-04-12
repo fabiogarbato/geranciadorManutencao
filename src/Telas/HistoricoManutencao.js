@@ -216,7 +216,7 @@ const HistoricoManutencao = () => {
   
       if (response.ok) {
         const resultado = await response.json();
-        showMessageInfo(`Manutenção atualizada com sucesso para o veículo ${modelo}`);
+        showMessageSuccess(`Manutenção atualizada com sucesso para o veículo ${modelo}`);
         return resultado;
       } else {
         throw new Error('Falha ao atualizar o histórico de manutenção');

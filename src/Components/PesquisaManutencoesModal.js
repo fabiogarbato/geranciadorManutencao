@@ -71,23 +71,25 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
       if (data.length > 0) {
         const veiculoCarregado = data[0];
         setVeiculo(veiculoCarregado);
-        setMarca(veiculo.marca)
-        setModelo(veiculo.modelo)
-        setAno(veiculo.ano)
-        setIsPlacaDisabled(true)
-
+        setMarca(veiculoCarregado.marca);
+        setModelo(veiculoCarregado.modelo);
+        setAno(veiculoCarregado.ano);
+        setIsPlacaDisabled(true);
+  
         const manutencoesResponse = await fetch(
-          `${API_BASE_URL}/historicoManutencao/veiculo/${veiculo.id}`,
+          `${API_BASE_URL}/historicoManutencao/veiculo/${veiculoCarregado.id}`,
         )
         const manutencoesData = await manutencoesResponse.json()
         setManutencoes(manutencoesData)
       } else {
-        showMessageWarn('Placa não cadastrada!')
+        showMessageWarn('Placa não cadastrada!');
+        setManutencoes([]);
       }
     } catch (error) {
-      console.error('Erro ao buscar veículo:', error)
+      console.error('Erro ao buscar veículo:', error);
     }
-  }
+  };
+  
 
   const handleClose = () => {
     setTermoPesquisa('')
@@ -251,10 +253,26 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
         <Table striped bordered hover className="mt-3">
           <thead>
             <tr>
-              <th>Data da Manutenção</th>
-              <th>Detalhes</th>
-              <th>Custo (R$)</th>
-              <th>Ações</th>
+              <th>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  Data da Manutenção
+                </div>
+              </th>
+              <th>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  Detalhes
+                </div>
+              </th>
+              <th>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  Custo (R$)
+                </div>
+              </th>
+              <th>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  Ações
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -264,17 +282,29 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
                 style={{ cursor: 'pointer' }}
               >
                 <td>
-                  {new Date(manutencao.data_manutencao).toLocaleDateString()}
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {new Date(manutencao.data_manutencao).toLocaleDateString()}
+                  </div>
                 </td>
-                <td>{manutencao.detalhes}</td>
-                <td>{manutencao.custo}</td>
                 <td>
-                  <Button
-                    variant="danger"
-                    onClick={(e) => confirmarExclusao(e, manutencao.id)}
-                  >
-                    <FaTrash />
-                  </Button>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {manutencao.detalhes}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {manutencao.custo}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button
+                      variant="danger"
+                      onClick={(e) => confirmarExclusao(e, manutencao.id)}
+                    >
+                      <FaTrash />
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}
