@@ -22,8 +22,10 @@ import { showMessageSuccess } from '../utils'
 import ClearButton from './ClearButton'
 import { showMessageWarn } from '../utils'
 import useButtonState from './useButtonState'
+import useSortableData from './useSortableData';
 
 const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
+
   const [, setTermoPesquisa] = useState('')
   const [manutencoes, setManutencoes] = useState([])
   const [showConfirmacaoModal, setShowConfirmacaoModal] = useState(false)
@@ -180,6 +182,15 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
     pesquisarPlaca();  
   };  
 
+  const { items: sortedManutencoes, requestSort, sortConfig, renderSortIcon } = useSortableData(manutencoes);
+
+  const getClassNamesFor = (name) => {
+    if (!sortConfig) {
+      return '';
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
       <Modal.Header closeButton>
@@ -258,19 +269,19 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
         <Table striped bordered hover className="mt-3">
           <thead>
             <tr>
-              <th>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('data_manutencao')}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  Data da Manutenção
+                  Data da Manutenção {renderSortIcon('data_manutencao')}
                 </div>
               </th>
-              <th>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('detalhes')}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  Detalhes
+                  Detalhes {renderSortIcon('detalhes')}
                 </div>
               </th>
-              <th>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('custo')}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  Custo (R$)
+                  Custo (R$) {renderSortIcon('custo')}
                 </div>
               </th>
               <th>
@@ -281,9 +292,10 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
             </tr>
           </thead>
           <tbody>
-            {manutencoes.map((manutencao) => (
+            {sortedManutencoes.map((manutencao) => (
               <tr 
-                key={manutencao.id} onClick={() => veiculo ? onManutencaoSelect(manutencao, veiculo) : console.error("Veículo não está disponível")}
+                key={manutencao.id} 
+                onClick={() => veiculo ? onManutencaoSelect(manutencao, veiculo) : console.error("Veículo não está disponível")}
                 style={{ cursor: 'pointer' }}
               >
                 <td>
@@ -305,7 +317,10 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button
                       variant="danger"
-                      onClick={(e) => confirmarExclusao(e, manutencao.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        confirmarExclusao(e, manutencao.id);
+                      }}
                     >
                       <FaTrash />
                     </Button>
