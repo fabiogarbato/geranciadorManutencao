@@ -329,7 +329,7 @@ const HistoricoManutencao = () => {
                   type="date"
                   value={data_manutencao}
                   onChange={handleChange}
-                />
+              />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formDetalhes">
                 <Form.Label>

@@ -184,13 +184,6 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
 
   const { items: sortedManutencoes, requestSort, sortConfig, renderSortIcon } = useSortableData(manutencoes);
 
-  const getClassNamesFor = (name) => {
-    if (!sortConfig) {
-      return '';
-    }
-    return sortConfig.key === name ? sortConfig.direction : undefined;
-  };
-
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
       <Modal.Header closeButton>
@@ -310,7 +303,7 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
                 </td>
                 <td>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    {manutencao.custo}
+                    R${manutencao.custo}
                   </div>
                 </td>
                 <td>
