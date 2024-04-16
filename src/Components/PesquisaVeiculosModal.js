@@ -7,6 +7,7 @@ import axios from 'axios'
 import { FaTrash } from 'react-icons/fa'
 import ConfirmacaoExclusaoModal from './ConfirmacaoExclusaoModal'
 import { showMessageSuccess, showMessageError, showMessageWarn } from '../utils'
+import useSortableData from './useSortableData';
 
 const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
   const [termoPesquisa, setTermoPesquisa] = useState('')
@@ -47,33 +48,7 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
   }
 
-  const [ordenacao, setOrdenacao] = useState({
-    coluna: 'placa',
-    direcao: 'asc',
-  })
-
-  const ordenarVeiculos = (coluna) => {
-    const direcao =
-      ordenacao.coluna === coluna && ordenacao.direcao === 'asc'
-        ? 'desc'
-        : 'asc'
-    setOrdenacao({ coluna, direcao })
-  }
-
-  const renderSortIcon = (coluna) => {
-    if (ordenacao.coluna === coluna) {
-      return ordenacao.direcao === 'asc' ? ' ↑' : ' ↓'
-    }
-    return ' ↕'
-  }
-
-  const veiculosOrdenados = [...veiculos].sort((a, b) => {
-    if (a[ordenacao.coluna] < b[ordenacao.coluna])
-      return ordenacao.direcao === 'asc' ? -1 : 1
-    if (a[ordenacao.coluna] > b[ordenacao.coluna])
-      return ordenacao.direcao === 'asc' ? 1 : -1
-    return 0
-  })
+  const { items: veiculosOrdenados, requestSort, renderSortIcon } = useSortableData(veiculos);
 
   const verificarDependenciasVeiculo = async (id) => {
     try {
@@ -136,28 +111,28 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
         <Table striped bordered hover className="mt-3">
           <thead>
             <tr>
-              <th onClick={() => ordenarVeiculos('placa')}>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('placa')}>
                 Placa{renderSortIcon('placa')}
               </th>
-              <th onClick={() => ordenarVeiculos('marca')}>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('marca')}>
                 Marca{renderSortIcon('marca')}
               </th>
-              <th onClick={() => ordenarVeiculos('modelo')}>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('modelo')}>
                 Modelo{renderSortIcon('modelo')}
               </th>
-              <th onClick={() => ordenarVeiculos('ano')}>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('ano')}>
                 Ano{renderSortIcon('ano')}
               </th>
-              <th onClick={() => ordenarVeiculos('cor')}>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('cor')}>
                 Cor{renderSortIcon('cor')}
               </th>
-              <th onClick={() => ordenarVeiculos('km_atual')}>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('km_atual')}>
                 Km Atual{renderSortIcon('km_atual')}
               </th>
-              <th onClick={() => ordenarVeiculos('tipo')}>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('tipo')}>
                 Tipo{renderSortIcon('tipo')}
               </th>
-              <th>Ações</th> 
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -204,7 +179,10 @@ const PesquisaVeiculosModal = ({ show, onHide, onVeiculoSelecionado }) => {
                 </td>
                 <td>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button variant="danger" onClick={(e) => confirmarExclusao(e, veiculo.id)}>
+                    <Button variant="danger" onClick={(e) => {
+                      e.stopPropagation();
+                      confirmarExclusao(e, veiculo.id);
+                    }}>
                       <FaTrash />
                     </Button>
                   </div>
