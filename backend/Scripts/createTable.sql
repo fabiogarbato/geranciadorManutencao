@@ -38,7 +38,8 @@ CREATE TABLE historico_manutencao (
     veiculo_id INTEGER REFERENCES veiculos(id),
     data_manutencao TIMESTAMP WITH TIME ZONE NOT NULL,
     detalhes TEXT,
-    custo NUMERIC(10, 2)
+    custo NUMERIC(10, 2),
+    km_troca INTEGER
 );
 
 CREATE TABLE controle_custos (

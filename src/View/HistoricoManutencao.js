@@ -12,6 +12,7 @@ import {
   FaTrademark,
   FaCarAlt,
   FaCalendarAlt,
+  FaTachometerAlt,
 } from 'react-icons/fa'
 import BackButton from '../Components/BackButton.js'
 import SaveButton from '../Components/SaveButton.js'
@@ -37,6 +38,7 @@ const HistoricoManutencao = () => {
   const [data_manutencao, setData_manutencao] = useState('')
   const [detalhes, setDetalhes] = useState('')
   const [custo, setCusto] = useState('')
+  const [km_troca, setkm_troca] = useState('')
 
   const { isSaveButtonEnabled, isClearButtonEnabled } = useButtonState(
     placa,
@@ -46,6 +48,7 @@ const HistoricoManutencao = () => {
     data_manutencao,
     detalhes,
     custo,
+    km_troca,
   )
 
   const [isPlacaDisabled, setIsPlacaDisabled] = useState(false)
@@ -66,6 +69,7 @@ const HistoricoManutencao = () => {
     setData_manutencao(manutencao.data_manutencao.split("T")[0]); 
     setDetalhes(manutencao.detalhes);
     setCusto(manutencao.custo);
+    setkm_troca(manutencao.km_troca);
     setIsPlacaDisabled(true)
     setManutencaoId(manutencao.id)
     setShowModal(false); 
@@ -147,6 +151,9 @@ const HistoricoManutencao = () => {
       case 'formCusto':
         setCusto(value)
         break
+      case 'formKm_Troca':
+        setkm_troca(value)
+        break
       default:
         break
     }
@@ -162,6 +169,7 @@ const HistoricoManutencao = () => {
     setData_manutencao('')
     setDetalhes('')
     setCusto('')
+    setkm_troca('')
   }
 
   const adicionarHistoricoManutencao = async () => {
@@ -170,6 +178,7 @@ const HistoricoManutencao = () => {
       data_manutencao: data_manutencao,
       detalhes: detalhes,
       custo: custo,
+      km_troca: km_troca,
     }
 
     try {
@@ -203,7 +212,8 @@ const HistoricoManutencao = () => {
       ano: parseInt(ano, 10),
       data_manutencao: data_manutencao.split("T")[0],
       detalhes: detalhes,
-      custo: parseFloat(custo)
+      custo: parseFloat(custo),
+      km_troca: km_troca
     };
   
     try {
@@ -229,7 +239,7 @@ const HistoricoManutencao = () => {
 
   const isFormComplete = () => {
     return (
-      placa && marca && modelo && ano && data_manutencao && detalhes && custo
+      placa && marca && modelo && ano && data_manutencao && detalhes && custo && km_troca
     )
   }
 
@@ -322,16 +332,33 @@ const HistoricoManutencao = () => {
                   </Form.Group>
                 </Col>
               </Row>
-              <Form.Group className="mb-3" controlId="formDataManutencao">
-                <Form.Label>
-                  <FaCalendar /> Data da Manutenção
-                </Form.Label>
-                <Form.Control
-                  type="date"
-                  value={data_manutencao}
-                  onChange={handleChange}
-              />
-              </Form.Group>
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="formDataManutencao">
+                    <Form.Label>
+                      <FaCalendar /> Data da Manutenção
+                    </Form.Label>
+                    <Form.Control
+                      type="date"
+                      value={data_manutencao}
+                      onChange={handleChange}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3" controlId="formKm_Troca">
+                    <Form.Label>
+                      <FaTachometerAlt /> Km 
+                    </Form.Label>
+                    <Form.Control
+                      type="number"
+                      placeholder="Insira a quilometragem no momento da manutenção"
+                      value={km_troca}
+                      onChange={handleChange}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
               <Form.Group className="mb-3" controlId="formDetalhes">
                 <Form.Label>
                   <FaRegEdit /> Descrição

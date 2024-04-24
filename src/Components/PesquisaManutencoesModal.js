@@ -37,6 +37,7 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
   const [, setData_manutencao] = useState('')
   const [, setDetalhes] = useState('')
   const [, setCusto] = useState('')
+  const [, setkm_troca] = useState('')
   const {isClearButtonEnabled } = useButtonState(placa)
   const [isPlacaDisabled, setIsPlacaDisabled] = useState(false)
   const [veiculo, setVeiculo] = useState(null);
@@ -164,6 +165,7 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
     setData_manutencao('')
     setDetalhes('')
     setCusto('')
+    setkm_troca('')
     setManutencoes([])
   }
 
@@ -277,6 +279,11 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
                   Custo (R$) {renderSortIcon('custo')}
                 </div>
               </th>
+              <th style={{ cursor: 'pointer' }} onClick={() => requestSort('km_troca')}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  Km {renderSortIcon('km_troca')}
+                </div>
+              </th>
               <th>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   Ações
@@ -304,6 +311,11 @@ const PesquisaManutencoesModal = ({ show, onHide, onManutencaoSelect }) => {
                 <td>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     R${manutencao.custo}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {manutencao.km_troca}
                   </div>
                 </td>
                 <td>

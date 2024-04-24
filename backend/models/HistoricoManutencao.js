@@ -28,6 +28,9 @@ HistoricoManutencao.init(
     custo: {
       type: DataTypes.NUMERIC(10, 2),
     },
+    km_troca:{
+      type: DataTypes.INTEGER
+    },
   },
   {
     sequelize,
