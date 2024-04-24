@@ -48,7 +48,6 @@ const HistoricoManutencao = () => {
     custo,
   )
 
-  
   const [isPlacaDisabled, setIsPlacaDisabled] = useState(false)
   
   const [isUpdating, setIsUpdating] = useState(false)
@@ -111,6 +110,8 @@ const HistoricoManutencao = () => {
         setAno(veiculo.ano)
         setVeiculoId(veiculo.id)
         setIsPlacaDisabled(true)
+      }else {
+        showMessageWarn('Placa não cadastrada!');
       }
     } catch (error) {
       console.error('Erro ao buscar veículo:', error)
